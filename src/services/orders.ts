@@ -68,15 +68,17 @@ export async function createOrder(
 
     // DEBUG: capture raw response for troubleshooting
     const rawText = await res.text().catch(() => "");
-    // print compact debug line
-    console.error(
-      "createOrder → status:",
-      res.status,
-      "idempotency:",
-      idempotencyKey,
-      "raw:",
-      rawText
-    );
+    // print compact debug line only for errors
+    if (!res.ok) {
+      console.error(
+        "createOrder → status:",
+        res.status,
+        "idempotency:",
+        idempotencyKey,
+        "raw:",
+        rawText
+      );
+    }
 
     let json: any = {};
     try {

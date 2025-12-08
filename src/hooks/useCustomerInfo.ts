@@ -30,6 +30,7 @@ export const useCustomerInfo = () => {
 
     if (isAuthed && user) {
       // Logged-in user: pre-fill from user data
+      console.log('Auto-filling user data:', user);
       setCustomerInfo({
         name: user.name || "",
         phone: user.phone || "",

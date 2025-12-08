@@ -181,7 +181,7 @@ export default function ProductsGridClient({
     });
   }, []);
 
-  // ------------------ Mobile handlers: Add to cart & Buy now (reuse trending logic) ------------------
+  // ------------------ Mobile handlers: Add to Bag & Buy now (reuse trending logic) ------------------
   const handleAddToCart = useCallback(
     async (p: Product) => {
       const id = p._id;
@@ -216,8 +216,8 @@ export default function ProductsGridClient({
         // reset qty
         setQuantities((prev) => ({ ...prev, [id]: 1 }));
       } catch (err) {
-        console.error("Add to cart failed", err);
-        toast.error("Failed to add to cart. Please try again.");
+        console.error("Add to Bag failed", err);
+        toast.error("Failed to Add to Bag. Please try again.");
       } finally {
         setTimeout(() => setLoadingOff(id), 200);
       }
@@ -315,10 +315,9 @@ export default function ProductsGridClient({
       {/* ---------- MOBILE: list rows with image-left, badges outside image, title bottom-left, stock bottom-right ---------- */}
       <div className="lg:hidden space-y-3">
         {items.map((p) => {
-          const cover =
-            p.image ??
-            (Array.isArray(p.image) ? p.image[0] : undefined) ??
-            FALLBACK_IMG;
+          const cover = Array.isArray(p.image)
+            ? p.image[0] || FALLBACK_IMG
+            : p.image || FALLBACK_IMG;
           const showCompare =
             p.compareAtPrice != null &&
             p.price != null &&

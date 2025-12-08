@@ -136,7 +136,7 @@ export default async function ProductsPage({
   // --- Normal case: show header + ProductsGridClient (unchanged API)
   return (
     <div className="min-h-screen bg-white">
-      <div className="mx-auto max-w-7xl px-4 xs:px-5 sm:px-6 lg:px-8 py-8 md:py-12">
+      <div className="mx-auto max-w-7xl px-4 xs:px-5 sm:px-6 lg:px-8 py-16 md:py-12">
         {/* ====== Header: title, subtitle, controls (clean & accessible) ====== */}
         <div className="mb-8 md:mb-12">
           <div className="flex items-start gap-4">

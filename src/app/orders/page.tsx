@@ -75,24 +75,8 @@ export default function MyOrdersPage() {
   );
 
   const handleOpenInvoice = async (order: Order) => {
-    const invoice = await fetchInvoiceForOrder(order._id);
-    if (!invoice) {
-      alert("No invoice found for this order. Please contact support.");
-      return;
-    }
-
-    if (invoice.pdfUrl) {
-      window.open(invoice.pdfUrl, "_blank");
-      return;
-    }
-
-    if (invoice.guestToken) {
-      const guestUrl = `${process.env.NEXT_PUBLIC_APP_ORIGIN || ""}/invoices/guest/${invoice.guestToken}`;
-      window.open(guestUrl, "_blank");
-      return;
-    }
-
-    alert("Invoice exists but PDF is not ready yet.");
+    // Always use guest invoice page for all users
+    window.location.href = `/invoices/guest/${order._id}`;
   };
 
   // Filtering - Only show user's orders
@@ -171,7 +155,7 @@ export default function MyOrdersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white py-6 sm:py-8">
+    <div className="min-h-screen bg-white py-20 sm:py-8">
       <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6">
         {/* Header */}
         <div className="text-center mb-8 sm:mb-12">

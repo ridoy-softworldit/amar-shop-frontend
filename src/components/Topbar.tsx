@@ -172,7 +172,7 @@ export default function Topbar() {
                   priority
                 />
               </div>
-              <div className="hidden lg:flex lg:flex-col sm:block text-lg font-bold text-white tracking-wide">
+              <div className="flex flex-col text-sm sm:text-base lg:text-lg font-bold text-white tracking-wide leading-tight">
                 <h1>{brand}</h1>
                 <p>আমার শপ</p>
               </div>

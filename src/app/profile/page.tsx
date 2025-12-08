@@ -230,7 +230,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-rose-100 py-8 sm:py-10">
+    <div className="min-h-screen bg-linear-to-br from-pink-50 to-rose-100 py-20 sm:py-10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Header */}
         <div className="flex items-start sm:items-center justify-between gap-3">

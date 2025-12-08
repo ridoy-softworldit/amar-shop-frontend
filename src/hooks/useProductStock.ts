@@ -24,7 +24,7 @@ export function useProductStock() {
     [deltas]
   );
 
-  // reserve locally (e.g., add to cart)
+  // reserve locally (e.g., Add to Bag)
   const localReserve = useCallback(
     (id: string, qty = 1) => {
       dispatch(applyLocalDelta({ id, delta: -qty }));

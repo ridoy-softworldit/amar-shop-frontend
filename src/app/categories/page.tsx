@@ -45,7 +45,7 @@ export default function CategoriesPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-white to-cyan-50 px-4 sm:px-6 md:px-8 lg:px-12 py-10 sm:py-14">
+    <main className="min-h-screen bg-linear-to-b from-white to-cyan-50 px-4 sm:px-6 md:px-8 lg:px-12 py-16 sm:py-14">
       {/* ===== Header ===== */}
       <div className="text-center mb-10 sm:mb-14">
         <motion.h1
@@ -66,7 +66,7 @@ export default function CategoriesPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6"
+        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6"
       >
         {categories.map((cat, index) => (
           <motion.div
@@ -74,32 +74,32 @@ export default function CategoriesPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.04 }}
-            className="bg-white rounded-2xl border border-cyan-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all cursor-pointer"
+            className="bg-white rounded-2xl border border-cyan-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all cursor-pointer overflow-hidden h-48 sm:h-56"
           >
             <Link
               href={`/category/${encodeURIComponent(cat.slug)}`}
-              className="flex flex-col items-center justify-center p-4 sm:p-5 h-full"
+              className="relative block h-full"
             >
-              <div className="relative w-[70px] h-[70px] sm:w-[80px] sm:h-[80px] rounded-full overflow-hidden bg-gray-50 border border-cyan-100 flex items-center justify-center mb-3">
+              <div className="absolute inset-0 bg-gray-50 flex items-center justify-center p-2" style={{ bottom: '60px' }}>
                 {cat.image ? (
-                  <Image
+                  <img
                     src={cat.image}
                     alt={cat.title}
-                    fill
-                    sizes="100px"
-                    className="object-cover"
+                    style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
                   />
                 ) : (
-                  <Sparkles className="w-6 h-6 text-cyan-600" />
+                  <Sparkles className="w-12 h-12 text-cyan-600" />
                 )}
               </div>
 
-              <h3 className="text-sm sm:text-base font-semibold text-gray-700 text-center leading-tight mb-1">
-                {cat.title}
-              </h3>
-              <div className="flex items-center gap-1 text-cyan-600 text-xs sm:text-sm font-medium mt-1">
-                <span>View</span>
-                <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
+              <div className="absolute bottom-0 left-0 right-0 bg-white p-2" style={{ height: '60px' }}>
+                <h3 className="text-sm sm:text-base font-semibold text-gray-700 text-center leading-tight mb-2">
+                  {cat.title}
+                </h3>
+                <div className="flex items-center justify-center gap-1 text-cyan-600 text-xs sm:text-sm font-medium">
+                  <span>View</span>
+                  <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
+                </div>
               </div>
             </Link>
           </motion.div>

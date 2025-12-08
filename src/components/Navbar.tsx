@@ -79,7 +79,7 @@ export default function Navbar() {
               <motion.div
                 whileHover={{ rotate: 360 }}
                 transition={{ duration: 0.6 }}
-                className="w-9 h-9 sm:w-12 sm:h-12 bg-gradient-to-br from-pink-500 to-rose-600 rounded-xl flex items-center justify-center shadow-md"
+                className="w-9 h-9 sm:w-12 sm:h-12 bg-linear-to-br from-pink-500 to-rose-600 rounded-xl flex items-center justify-center shadow-md"
               >
                 <Sparkles
                   className="w-6 h-6 sm:w-7 sm:h-7 text-white"

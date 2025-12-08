@@ -236,8 +236,8 @@ export default function TrendingGrid({
         toast.success(`${qty} × ${p.title} added to cart`);
         setQuantities((prev) => ({ ...prev, [p._id]: 1 }));
       } catch (err) {
-        console.error("Add to cart error:", err);
-        toast.error("Could not add to cart");
+        console.error("Add to Bag error:", err);
+        toast.error("Could not Add to Bag");
       } finally {
         setTimeout(() => setLoading(p._id, false), 200);
       }
@@ -296,74 +296,8 @@ export default function TrendingGrid({
           quantity: qty,
         });
 
-        // require a phone (we encourage checkout flow) — if not present, navigate to checkout
-        let phone: string | null = null;
-        try {
-          phone =
-            typeof window !== "undefined"
-              ? localStorage.getItem("customer_phone")
-              : null;
-        } catch (e) {
-          phone = null;
-        }
-
-        if (!phone) {
-          toast(
-            "Please enter your contact details at checkout to complete the order.",
-            { icon: "ℹ️" }
-          );
-          router.push("/checkout");
-          return;
-        }
-
-        // build idempotency key and payload
-        const idempotencyKey =
-          typeof crypto !== "undefined" && (crypto as any).randomUUID
-            ? (crypto as any).randomUUID()
-            : `${Date.now()}-${Math.random()}`;
-
-        const orderPayload = {
-          items: [
-            {
-              _id: p._id,
-              productId: p._id,
-              quantity: qty,
-              title: p.title,
-              price,
-              image,
-            },
-          ],
-          customer: {
-            name: "Customer",
-            phone,
-            houseOrVillage: "",
-            roadOrPostOffice: "",
-            blockOrThana: "",
-            district: "",
-          },
-          totals: {
-            subTotal: price * qty,
-            shipping: 0,
-            grandTotal: price * qty,
-          },
-          payment: { method: "CASH_ON_DELIVERY", status: "PENDING" },
-          notes: "Quick buy now order",
-          idempotencyKey,
-        };
-
-        // call createOrder (detailed logging in service)
-        const response = await createOrder(orderPayload, { idempotencyKey });
-
-        if (response?.ok) {
-          try {
-            removeItem(p._id);
-          } catch (e) {}
-          setQuantities((prev) => ({ ...prev, [p._id]: 1 }));
-          toast.success("Order confirmed! Redirecting to checkout...");
-          router.push("/checkout");
-        } else {
-          toast.error("Failed to process order. Please try again.");
-        }
+        toast.success("Redirecting to checkout...");
+        router.push("/checkout");
       } catch (err: any) {
         console.error("BuyNow error:", err);
         // prefer server-provided messages
@@ -452,26 +386,42 @@ export default function TrendingGrid({
                 </div>
               </div>
 
-              <div className="w-full flex items-center gap-2">
-                <div className="text-sm text-black font-bold">
-                  {formatPrice(prod.price)}
-                </div>
-                {prod.discount > 0 && (
-                  <div className="text-[10px] text-gray-500 line-through">
-                    {formatPrice(prod.compare)}
+              <div className="w-full flex items-center justify-between gap-1">
+                <div className="flex items-center gap-1">
+                  <div className="text-sm text-black font-bold">
+                    {formatPrice(prod.price * prod.qty)}
                   </div>
-                )}
+                  {prod.discount > 0 && (
+                    <div className="text-[10px] text-gray-500 line-through">
+                      {formatPrice(prod.compare * prod.qty)}
+                    </div>
+                  )}
+                </div>
+                <div className="flex items-center gap-0.5 bg-gray-200 rounded px-1 py-0.5">
+                  <button
+                    onClick={() => decrementQuantity(prod.p._id)}
+                    disabled={!!loadingStates[prod.p._id] || prod.qty <= 1}
+                    className="w-5 h-5 rounded bg-white text-black flex items-center justify-center text-xs font-bold disabled:opacity-50"
+                  >
+                    −
+                  </button>
+                  <span className="w-6 text-center text-xs font-bold text-black">{prod.qty}</span>
+                  <button
+                    onClick={() => incrementQuantity(prod.p._id)}
+                    disabled={!!loadingStates[prod.p._id] || prod.qty >= Math.max(1, prod.stock)}
+                    className="w-5 h-5 rounded bg-white text-black flex items-center justify-center text-xs font-bold disabled:opacity-50"
+                  >
+                    +
+                  </button>
+                </div>
               </div>
 
               <button
-                onClick={() => {
-                  setQuantities((prev) => ({ ...prev, [prod.p._id]: 1 }));
-                  handleAddToCart({ ...prod, qty: 1, total: prod.price });
-                }}
+                onClick={() => handleAddToCart(prod)}
                 disabled={prod.isOutOfStock || !!loadingStates[prod.p._id]}
                 className="w-full px-2 py-1.5 bg-[#167389] text-white rounded-md text-xs font-medium disabled:opacity-50"
               >
-                {loadingStates[prod.p._id] ? "Adding..." : "Add to Cart"}
+                {loadingStates[prod.p._id] ? "Adding..." : "Add to Bag"}
               </button>
             </div>
           ))}
@@ -592,7 +542,7 @@ export default function TrendingGrid({
                       {loadingStates[prod.p._id] ? (
                         "Adding..."
                       ) : (
-                        <>Add to Cart {prod.qty > 1 ? `(${prod.qty})` : ""}</>
+                        <>Add to Bag {prod.qty > 1 ? `(${prod.qty})` : ""}</>
                       )}
                     </button>
                     <button

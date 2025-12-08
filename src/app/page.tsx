@@ -140,7 +140,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="lg:hidden flex flex-col gap-2 pt-10">
+            <div className="lg:hidden flex flex-col gap-2 pt-12">
               <div className="w-full">
                 <HeroBannerClient
                   limit={6}
@@ -161,7 +161,7 @@ export default function HomePage() {
               title="📈 Trending Now"
               subtitle="Most popular products with amazing deals"
               products={hotDeals}
-              className="mt-4"
+              className="-mt-4"
             />
           </ErrorBoundary>
 

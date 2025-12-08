@@ -168,20 +168,15 @@ export default function CategoriesScroll({
                                shrink-0 rounded-xl border border-gray-200 bg-white
                                transition hover:border-cyan-300 hover:shadow"
                   >
-                    <div className="relative mx-2 mt-2 h-[120px] md:h-[130px] lg:h-[138px] overflow-hidden rounded-lg bg-gray-50">
+                    <div className="relative mx-2 mt-2 h-[120px] md:h-[130px] lg:h-[138px] overflow-hidden rounded-lg bg-gray-50 flex items-center justify-center p-1">
                       {cat.image ? (
-                        <Image
+                        <img
                           src={cat.image}
                           alt={cat.title}
-                          fill
-                          sizes="(max-width: 1024px) 120px, 132px"
-                          className="object-cover"
-                          priority={index < 6}
+                          style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
                         />
                       ) : (
-                        <div className="grid h-full w-full place-items-center">
-                          <ShoppingBag className="text-[#167389]" size={24} />
-                        </div>
+                        <ShoppingBag className="text-[#167389]" size={24} />
                       )}
                     </div>
                     <p className="px-2 pb-2 pt-1 text-center text-[12px] font-semibold leading-tight text-gray-700 line-clamp-2">

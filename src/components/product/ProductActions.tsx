@@ -32,7 +32,7 @@ export default function ProductActions({
   const availableStock = product.stock ?? 0;
   const _canIncrease = quantity < availableStock;
 
-  // Add to cart handler - User can add only once
+  // Add to Bag handler - User can add only once
   const handleAddToCart = async () => {
     if (isInCart) {
       toast.error("This product is already in your cart");
@@ -130,7 +130,7 @@ export default function ProductActions({
               ? "Adding..."
               : isInCart
                 ? "Already in Cart"
-                : "Add to Cart"}
+                : "Add to Bag"}
           </span>
         </button>
 

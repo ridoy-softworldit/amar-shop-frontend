@@ -203,7 +203,7 @@ export default function SearchPageRTK() {
     });
   }, []);
 
-  // Add to cart handler (same behaviour as TrendingGrid)
+  // Add to Bag handler (same behaviour as TrendingGrid)
   const handleAddToCart = useCallback(
     async (p: Product) => {
       const id = p._id;
@@ -242,8 +242,8 @@ export default function SearchPageRTK() {
         // reset qty
         setQuantities((prev) => ({ ...prev, [id]: 1 }));
       } catch (err) {
-        console.error("Add to cart failed", err);
-        toast.error("Failed to add to cart. Please try again.");
+        console.error("Add to Bag failed", err);
+        toast.error("Failed to Add to Bag. Please try again.");
       } finally {
         setTimeout(() => setLoadingOff(id), 200);
       }
@@ -251,7 +251,7 @@ export default function SearchPageRTK() {
     [addItem, loadingStates, quantities, setLoadingOff, setLoadingOn]
   );
 
-  // Buy Now: add to cart, confirmOrder, remove from cart and go to checkout
+  // Buy Now: Add to Bag, confirmOrder, remove from cart and go to checkout
   const handleBuyNow = useCallback(
     async (p: Product) => {
       const id = p._id;
@@ -273,7 +273,7 @@ export default function SearchPageRTK() {
       try {
         setLoadingOn(id);
 
-        // add to cart to reserve
+        // Add to Bag to reserve
         addItem({
           _id: id,
           title: p.title,
@@ -497,7 +497,7 @@ export default function SearchPageRTK() {
                         disabled={stock === 0 || loading}
                         className="w-full px-1 py-1 bg-[#167389] text-white rounded-md text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        {loading ? "Adding..." : "Add to Cart"}
+                        {loading ? "Adding..." : "Add to Bag"}
                       </button>
 
                       <button

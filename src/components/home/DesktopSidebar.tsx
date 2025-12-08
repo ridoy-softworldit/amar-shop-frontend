@@ -55,19 +55,16 @@ function DesktopSidebarBase({ categories, loading }: Props) {
                     href={`/c/${c.slug}`}
                     className=" group h-[150px] rounded-md border border-gray-200 bg-white p-1 flex flex-col items-stretch justify-start hover:shadow-md hover:border-cyan-300 transition"
                   >
-                    <div className=" relative basis-[90%] rounded-md overflow-hidden bg-gray-50">
-                                      <Image
-                                        src={c.image || "/placeholder.png"}
-                                        alt={c.title}
-                                        fill
-                                        className="object-contain"
-                                        sizes="(max-width: 640px) 30vw, 20vw"
-                                        // FIX: Add error handling for broken images
-                                        onError={(e) => {
-                                          e.currentTarget.src = "/placeholder.png";
-                                        }}
-                                      />
-                                    </div>
+                    <div className="basis-[90%] rounded-md overflow-hidden bg-gray-50 flex items-center justify-center p-1">
+                      <img
+                        src={c.image || "/placeholder.png"}
+                        alt={c.title}
+                        style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
+                        onError={(e) => {
+                          e.currentTarget.src = "/placeholder.png";
+                        }}
+                      />
+                    </div>
                                     <p className="basis-[10%] flex items-center justify-center text-[13px] font-semibold text-gray-800 text-center p-2  ">
                                       {c.title}
                                     </p>

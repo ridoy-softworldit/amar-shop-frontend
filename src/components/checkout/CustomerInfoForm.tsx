@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion } from "framer-motion";
@@ -14,7 +15,24 @@ const CustomerSchema = z.object({
 
   phone: z
     .string()
-    .regex(/^01[0-9]{9}$/, "Enter a valid Bangladeshi number (01XXXXXXXXX)"),
+    .transform((val) => {
+      // Remove +88 country code if present
+      if (val.startsWith('+88')) {
+        return val.substring(3);
+      }
+      // Remove 88 country code without + if present
+      if (val.startsWith('88') && val.length === 13) {
+        return val.substring(2);
+      }
+      // Add 0 prefix if missing (17XXXXXXXX -> 017XXXXXXXX)
+      if (val.startsWith('1') && val.length === 10) {
+        return '0' + val;
+      }
+      return val;
+    })
+    .refine((val) => /^01[0-9]{9}$/.test(val), {
+      message: "Enter a valid Bangladeshi number (01XXXXXXXXX)"
+    }),
   houseOrVillage: z.string().min(2, "Please enter your house/village"),
   roadOrPostOffice: z.string().min(2, "Please enter your road/post office"),
   blockOrThana: z.string().min(2, "Please enter your block/thana"),
@@ -39,6 +57,14 @@ export default function CustomerInfoForm({ onSubmit, isSubmitting, initialData }
     resolver: zodResolver(CustomerSchema),
     defaultValues: initialData || {},
   });
+
+  // Reset form when initialData changes
+  useEffect(() => {
+    if (initialData) {
+      console.log('Resetting form with:', initialData);
+      reset(initialData);
+    }
+  }, [initialData, reset]);
 
   const handleFormSubmit = async (data: CustomerFormData) => {
     try {

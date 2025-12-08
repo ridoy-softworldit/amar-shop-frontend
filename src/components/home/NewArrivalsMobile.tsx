@@ -139,7 +139,7 @@ export default function NewArrivalsMobile({ items, showCount = 2 }: Props) {
         setQuantities((prev) => ({ ...prev, [id]: 1 }));
       } catch (err) {
         console.error(err);
-        toast.error("Failed to add to cart");
+        toast.error("Failed to Add to Bag");
       } finally {
         setTimeout(() => setLoadingOff(id), 200);
       }
@@ -164,7 +164,7 @@ export default function NewArrivalsMobile({ items, showCount = 2 }: Props) {
 
       try {
         setLoadingOn(id);
-        // add to cart to reserve
+        // Add to Bag to reserve
         addItem({
           _id: prod._id,
           title: prod.title,
@@ -255,17 +255,37 @@ export default function NewArrivalsMobile({ items, showCount = 2 }: Props) {
                 </Link>
               </div>
 
-              <div className="mt-2 flex items-center justify-between">
-                <div className="max-w-[55%]">
-                  <h3 className="text-xs font-semibold line-clamp-2 text-black">
-                    {prod.title}
-                  </h3>
-                </div>
-                <div>
-                  <div
-                    className={`text-xs px-2 py-1 rounded-md font-medium ${stock === 0 ? "bg-red-100 text-red-800" : "bg-black/70 text-white"}`}
-                  >
-                    {stock === 0 ? "Out of Stock" : `Stock: ${stock}`}
+              <div className="mt-2">
+                <h3 className="text-xs font-semibold line-clamp-2 text-black mb-1">
+                  {prod.title}
+                </h3>
+                <div className="flex items-center justify-between gap-1">
+                  <div className="flex items-center gap-1">
+                    <div className="text-sm text-black font-bold">
+                      {formatPrice(Number(prod.price ?? 0) * qty)}
+                    </div>
+                    {discount > 0 && (
+                      <div className="text-[10px] text-gray-500 line-through">
+                        {formatPrice(Number(prod.compareAtPrice ?? 0) * qty)}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-0.5 bg-gray-200 rounded px-1 py-0.5">
+                    <button
+                      onClick={() => decrementQuantity(prod._id)}
+                      disabled={loading || qty <= 1}
+                      className="w-5 h-5 rounded bg-white text-black flex items-center justify-center text-xs font-bold disabled:opacity-50"
+                    >
+                      −
+                    </button>
+                    <span className="w-6 text-center text-xs font-bold text-black">{qty}</span>
+                    <button
+                      onClick={() => incrementQuantity(prod._id, Math.max(1, stock))}
+                      disabled={loading || qty >= Math.max(1, stock)}
+                      className="w-5 h-5 rounded bg-white text-black flex items-center justify-center text-xs font-bold disabled:opacity-50"
+                    >
+                      +
+                    </button>
                   </div>
                 </div>
               </div>
@@ -273,44 +293,14 @@ export default function NewArrivalsMobile({ items, showCount = 2 }: Props) {
 
             <div className="w-1/3 flex flex-col justify-between">
               <div>
-                <div className="text-xs text-gray-700 font-medium mb-1">
-                  Qty
-                </div>
-                <div className="flex items-center gap-1 bg-gray-200 rounded-md p-1">
-                  <button
-                    onClick={() => decrementQuantity(prod._id)}
-                    disabled={loading || qty <= 1}
-                    className="w-6 h-6 rounded-md bg-white text-black border flex items-center justify-center disabled:opacity-50"
-                    aria-label={`Decrease quantity for ${prod.title}`}
-                  >
-                    −
-                  </button>
-                  <div className="flex-1 text-center font-bold">{qty}</div>
-                  <button
-                    onClick={() =>
-                      incrementQuantity(prod._id, Math.max(1, stock))
-                    }
-                    disabled={loading || qty >= Math.max(1, stock)}
-                    className="w-6 h-6 rounded-md bg-white text-black border flex items-center justify-center disabled:opacity-50"
-                    aria-label={`Increase quantity for ${prod.title}`}
-                  >
-                    +
-                  </button>
-                </div>
-
-                <div className="mt-1">
-                  <div className="text-sm text-black font-semibold">
-                    {formatPrice(Number(prod.price ?? 0) * qty)}
-                  </div>
-                  {discount > 0 && (
-                    <div className="text-xs text-gray-500 line-through">
-                      {formatPrice(Number(prod.price ?? 0) * qty)}
-                    </div>
-                  )}
+                <div
+                  className={`text-xs px-2 py-1 rounded-md font-medium text-center ${stock === 0 ? "bg-red-100 text-red-800" : "bg-black/70 text-white"}`}
+                >
+                  {stock === 0 ? "Out" : `Stock: ${stock}`}
                 </div>
               </div>
 
-              <div className="flex flex-col gap-1 my-1">
+              <div className="flex flex-col gap-1">
                 <button
                   onClick={() => handleAddToCart(prod)}
                   disabled={stock === 0 || loading}

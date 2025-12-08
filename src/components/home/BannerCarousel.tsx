@@ -44,20 +44,22 @@ function BannerCarouselBase({
     <div
       className={`relative w-full rounded-md overflow-hidden border border-red-200 bg-white shadow-sm ${heightClass}`}
     >
-      <div className="relative w-full h-full">
+      <div className="relative w-full h-full flex items-center justify-center bg-gray-50">
         {sources.map((src, i) => (
-          <Image
+          <img
             key={i}
             src={src}
             alt={`Banner ${i + 1}`}
-            fill
-            priority={i === 0}
-            className={`object-cover transition-all duration-700 ease-in-out ${
-              i === index
-                ? "translate-x-0 opacity-100"
-                : "-translate-x-full opacity-0"
-            }`}
-            sizes="100vw"
+            style={{ 
+              maxWidth: '100%', 
+              maxHeight: '100%', 
+              width: 'auto', 
+              height: 'auto',
+              position: 'absolute',
+              transition: 'all 0.7s ease-in-out',
+              transform: i === index ? 'translateX(0)' : 'translateX(-100%)',
+              opacity: i === index ? 1 : 0
+            }}
           />
         ))}
       </div>

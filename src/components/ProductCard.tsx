@@ -143,8 +143,8 @@ export default function ProductCard({
       // Reset quantity after successful add
       setQuantity(1);
     } catch (e) {
-      console.error("Add to cart failed", e);
-      toast.error("Failed to add to cart");
+      console.error("Add to Bag failed", e);
+      toast.error("Failed to Add to Bag");
     } finally {
       setTimeout(() => setAdding(false), 250);
     }
@@ -398,7 +398,7 @@ export default function ProductCard({
         disabled={isOut || adding || buying}
         className="w-full px-2 py-1.5 bg-[#167389] text-white rounded-md text-xs font-medium disabled:opacity-50"
       >
-        {adding ? "Adding..." : "Add to Cart"}
+        {adding ? "Adding..." : "Add to Bag"}
       </button>
     </article>
   );
