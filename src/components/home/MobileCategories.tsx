@@ -40,7 +40,7 @@ function MobileCategoriesBase({ categories }: Props) {
             >
               <div className=" relative basis-[90%] rounded-md overflow-hidden bg-gray-50">
                 <Image
-                  src={cat.image || "/placeholder.png"}
+                  src={cat.images?.[0] || "/placeholder.png"}
                   alt={cat.title}
                   fill
                   className="object-contain"

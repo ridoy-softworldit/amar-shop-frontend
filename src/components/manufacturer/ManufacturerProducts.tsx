@@ -7,26 +7,17 @@ import type { Product } from "@/types";
 
 /**
  * Helper: normalize different backend response shapes into Product[]
- * Accepts:
- *  - array: [...]
- *  - { data: [...] } or { data: { items: [...] } }
- *  - { items: [...] } or { results: [...] }
- *  - { ok: true, data: { items: [...] } }
  */
 function extractItemsFromResponse(res: any): Product[] {
   if (!res) return [];
-  // direct array
   if (Array.isArray(res)) return res;
-  // common patterns
   if (Array.isArray(res.data)) return res.data;
   if (res.data && Array.isArray(res.data.items)) return res.data.items;
   if (Array.isArray(res.items)) return res.items;
   if (Array.isArray(res.results)) return res.results;
-  // if server returns ok:true and data is array or object with items
   if (res.ok && Array.isArray(res.data)) return res.data;
   if (res.ok && res.data && Array.isArray(res.data.items))
     return res.data.items;
-  // try to find first array value in object (fallback)
   const firstArr = Object.values(res).find((v) => Array.isArray(v));
   if (Array.isArray(firstArr)) return firstArr as Product[];
   return [];
@@ -38,19 +29,18 @@ const API =
   "http://localhost:5000/api/v1";
 
 type Props = {
-  initialProducts: Product[] | any; // accept flexible shapes
-  categorySlug?: string;
-  subcategorySlug?: string;
+  initialProducts: Product[] | any;
+  manufacturerSlug: string;
+  brandName?: string;
 };
 
-export default function CategoryProducts({
+export default function ManufacturerProducts({
   initialProducts,
-  categorySlug,
-  subcategorySlug,
+  manufacturerSlug,
+  brandName,
 }: Props) {
   const PAGE_SIZE = 8;
 
-  // normalize initialProducts into array
   const normalizedInitial: Product[] =
     extractItemsFromResponse(initialProducts);
 
@@ -62,27 +52,24 @@ export default function CategoryProducts({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // if category/subcategory changed, reset list with normalized incoming data
     const arr = extractItemsFromResponse(initialProducts);
     setItems(arr);
     setHasMore((arr?.length || 0) >= PAGE_SIZE);
     setError(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categorySlug, subcategorySlug, JSON.stringify(initialProducts ?? null)]); // stringify to detect payload changes
+  }, [manufacturerSlug, JSON.stringify(initialProducts ?? null)]);
 
   async function loadMore() {
     if (loading) return;
     setLoading(true);
     setError(null);
     try {
-      const page = Math.floor(items.length / PAGE_SIZE) + 1; // next page (1-based)
+      const page = Math.floor(items.length / PAGE_SIZE) + 1;
       const url = new URL(`${API}/products`);
-      if (categorySlug) url.searchParams.set("category", categorySlug);
-      if (subcategorySlug) url.searchParams.set("subcategory", subcategorySlug);
+      const actualBrandName = brandName || manufacturerSlug.replace(/-/g, ' ');
+      url.searchParams.set("brand", actualBrandName);
       url.searchParams.set("limit", String(PAGE_SIZE));
-      url.searchParams.set("page", String(page + 1)); // because server pages are 1-based and we already have page items
-      // Note: If your backend uses skip/limit instead of page/limit, change accordingly:
-      // url.searchParams.set("skip", String(items.length));
+      url.searchParams.set("page", String(page));
 
       const res = await fetch(url.toString(), { cache: "no-store" });
       if (!res.ok) throw new Error(`Fetch failed (${res.status})`);
@@ -93,7 +80,6 @@ export default function CategoryProducts({
         setHasMore(false);
       } else {
         setItems((s) => [...s, ...nextItems]);
-        // if returned < PAGE_SIZE then no more
         if (nextItems.length < PAGE_SIZE) setHasMore(false);
       }
     } catch (err: any) {

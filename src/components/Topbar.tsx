@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {  useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCartStore } from "@/store/cartStore";
@@ -329,12 +329,10 @@ export default function Topbar() {
 
           {/* RIGHT: WhatsApp */}
           <div className="flex justify-center">
-            <a
+            <Link
               href="/orders"
-              target="_blank"
-              rel="noopener noreferrer"
               className="flex flex-col items-center text-xs"
-              aria-label="WhatsApp chat"
+              aria-label="Orders"
             >
               {/* <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -346,7 +344,7 @@ export default function Topbar() {
               </svg> */}
               <ListOrderedIcon></ListOrderedIcon>
               <span className="font-semibold">Order</span>
-            </a>
+            </Link>
           </div>
 
           {/* RIGHT: Call */}
@@ -372,7 +370,7 @@ export default function Topbar() {
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ type: "spring", stiffness: 100, damping: 18 }}
-            className="fixed inset-0 z-[60] bg-white rounded-t-2xl shadow-2xl overflow-y-auto"
+            className="fixed inset-0 z-60 bg-white rounded-t-2xl shadow-2xl overflow-y-auto"
           >
             <div className="sticky top-0 flex justify-between items-center px-4 py-3 border-b border-gray-200 bg-white z-10">
               <h3 className="text-lg font-semibold text-[#167389]">
@@ -396,7 +394,7 @@ export default function Topbar() {
                 >
                   <div className=" relative basis-[90%] rounded-md overflow-hidden bg-gray-50">
                     <Image
-                      src={cat.image || "/placeholder.png"}
+                      src={cat.images?.[0] || "/placeholder.png"}
                       alt={cat.title}
                       fill
                       className="object-contain"
@@ -417,7 +415,7 @@ export default function Topbar() {
         )}
       </AnimatePresence>
 
-      <div className="h-[64px] sm:h-[72px] md:h-[80px] lg:h-[96px]" />
+      <div className="h-16 sm:h-[72px] md:h-20 lg:h-24" />
     </>
   );
 }

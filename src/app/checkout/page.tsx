@@ -52,19 +52,24 @@ export default function CheckoutPage() {
     localStorage.setItem("customer_phone", customerData.phone);
 
     // ✅ PREPARE PROPER PAYLOAD STRUCTURE
+    const customer: any = {
+      name: customerData.name,
+      phone: customerData.phone,
+      houseOrVillage: customerData.houseOrVillage,
+      roadOrPostOffice: customerData.roadOrPostOffice,
+      blockOrThana: customerData.blockOrThana,
+      district: customerData.district,
+    };
+
+    // Always send billing address (required)
+    customer.billingAddress = customerData.billingAddress;
+
     const payload = {
       items: items.map((it) => ({
         _id: String(it._id), // ✅ Backend expects _id
         quantity: Math.max(1, toNum(it.quantity, 1)),
       })),
-      customer: {
-        name: customerData.name,
-        phone: customerData.phone,
-        houseOrVillage: customerData.houseOrVillage,
-        roadOrPostOffice: customerData.roadOrPostOffice,
-        blockOrThana: customerData.blockOrThana,
-        district: customerData.district,
-      },
+      customer,
       totals: {
         subTotal: subtotal,
         shipping: deliveryCharge,

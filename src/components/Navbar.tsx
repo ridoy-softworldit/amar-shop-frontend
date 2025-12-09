@@ -88,7 +88,7 @@ export default function Navbar() {
                 />
               </motion.div>
               <div className="hidden sm:block min-w-0">
-                <h1 className="text-lg sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-700 to-rose-600 truncate">
+                <h1 className="text-lg sm:text-2xl font-bold text-transparent bg-clip-text bg-linear-to-r from-pink-700 to-rose-600 truncate">
                   GlowBeauty
                 </h1>
                 <p className="text-[11px] sm:text-xs text-pink-600 font-medium -mt-1">

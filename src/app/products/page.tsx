@@ -10,14 +10,19 @@ import Link from "next/link";
 export const revalidate = 30;
 
 interface ProductsPageProps {
-  searchParams: Promise<{ category?: string; q?: string }>;
+  searchParams: Promise<{ category?: string; subcategory?: string; q?: string }>;
 }
 
 export default async function ProductsPage({
   searchParams,
 }: ProductsPageProps) {
   const params = await searchParams;
-  const { category, q } = params;
+  const { category, subcategory, q } = params;
+
+  // If subcategory-only route -> show subcategory landing
+  if (subcategory && !q) {
+    return <CategoryView slug={decodeURIComponent(subcategory)} isSubcategory={true} />;
+  }
 
   // If category-only route -> show category landing (existing behavior)
   if (category && !q) {

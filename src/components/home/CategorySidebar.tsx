@@ -20,7 +20,7 @@ export default function DesktopSidebar({ categories = [], loading }: Props) {
           (c: any, i: number) => {
             const slug = c?.slug ?? "";
             const title = c?.title ?? "";
-            const image = c?.image ?? "";
+            const image = c?.images?.[0] ?? "";
 
             return loading ? (
               <div

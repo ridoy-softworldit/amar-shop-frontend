@@ -16,7 +16,7 @@ function PromoCardBase({ href, className = "" }: PromoCardProps) {
   
   const categorySlug = isSurgical ? "surgical" : "medicine";
   const category = categories.find(cat => cat.slug === categorySlug);
-  const categoryImage = category?.image;
+  const categoryImage = category?.images?.[0];
 
   return (
     <Link

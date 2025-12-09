@@ -13,6 +13,14 @@ export interface CreateOrderDTO {
     roadOrPostOffice?: string;
     blockOrThana?: string;
     district?: string;
+    billingAddress?: {
+      name: string;
+      phone: string;
+      houseOrVillage?: string;
+      roadOrPostOffice?: string;
+      blockOrThana?: string;
+      district?: string;
+    };
   };
   totals?: {
     subTotal: number;
@@ -89,6 +97,14 @@ export interface OrderCustomer {
   roadOrPostOffice?: string;
   blockOrThana?: string;
   district?: string;
+  billingAddress?: {
+    name: string;
+    phone: string;
+    houseOrVillage?: string;
+    roadOrPostOffice?: string;
+    blockOrThana?: string;
+    district?: string;
+  };
 }
 
 export interface Order {

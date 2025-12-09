@@ -146,16 +146,30 @@ export function createOrderPayloadFromCart(
     ),
   };
 
+  const customer: any = {
+    name: customerData.name || "Guest",
+    phone: customerData.phone || "",
+    houseOrVillage: customerData.houseOrVillage || "",
+    roadOrPostOffice: customerData.roadOrPostOffice || "",
+    blockOrThana: customerData.blockOrThana || "",
+    district: customerData.district || "",
+  };
+
+  // Add billing address if provided
+  if (customerData.billingAddress) {
+    customer.billingAddress = {
+      name: customerData.billingAddress.name || "",
+      phone: customerData.billingAddress.phone || "",
+      houseOrVillage: customerData.billingAddress.houseOrVillage || "",
+      roadOrPostOffice: customerData.billingAddress.roadOrPostOffice || "",
+      blockOrThana: customerData.billingAddress.blockOrThana || "",
+      district: customerData.billingAddress.district || "",
+    };
+  }
+
   return {
     items,
-    customer: {
-      name: customerData.name || "Guest",
-      phone: customerData.phone || "",
-      houseOrVillage: customerData.houseOrVillage || "",
-      roadOrPostOffice: customerData.roadOrPostOffice || "",
-      blockOrThana: customerData.blockOrThana || "",
-      district: customerData.district || "",
-    },
+    customer,
     totals: calculatedTotals,
     payment: {},
     notes: "Order from website",

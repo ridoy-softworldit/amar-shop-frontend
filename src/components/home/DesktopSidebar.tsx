@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Sparkles, ShoppingBag } from "lucide-react";
 import type { Category } from "@/lib/schemas";
-import { memo, useState, useEffect, useRef } from "react";
+import { memo, useState, useEffect} from "react";
 
 interface Props {
   categories: Category[];
@@ -56,14 +56,20 @@ function DesktopSidebarBase({ categories, loading }: Props) {
                     className=" group h-[150px] rounded-md border border-gray-200 bg-white p-1 flex flex-col items-stretch justify-start hover:shadow-md hover:border-cyan-300 transition"
                   >
                     <div className="basis-[90%] rounded-md overflow-hidden bg-gray-50 flex items-center justify-center p-1">
-                      <img
-                        src={c.image || "/placeholder.png"}
-                        alt={c.title}
-                        style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
-                        onError={(e) => {
-                          e.currentTarget.src = "/placeholder.png";
-                        }}
-                      />
+                      {c.images?.[0] ? (
+                        <Image
+                          src={c.images[0]}
+                          alt={c.title}
+                          width={120}
+                          height={120}
+                          className="object-contain"
+                          onError={(e) => {
+                            e.currentTarget.src = "/placeholder.png";
+                          }}
+                        />
+                      ) : (
+                        <ShoppingBag className="text-[#167389]" size={24} />
+                      )}
                     </div>
                                     <p className="basis-[10%] flex items-center justify-center text-[13px] font-semibold text-gray-800 text-center p-2  ">
                                       {c.title}

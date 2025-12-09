@@ -4,6 +4,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
   fetchBanners,
   fetchCategories,
+  fetchManufacturers,
   fetchProducts,
   type ProductsQuery,
 } from "@/services/catalog";
@@ -49,6 +50,19 @@ export const catalogApi = createApi({
               { type: "Category" as const, id: "LIST" },
             ]
           : [{ type: "Category" as const, id: "LIST" }],
+    }),
+
+    /* ---------- Manufacturers ---------- */
+    getManufacturers: builder.query<{ data: any[] }, void>({
+      async queryFn(_arg, _api, _extra, _baseQuery) {
+        try {
+          const res = await fetchManufacturers();
+          return { data: { data: res.data } };
+        } catch (error) {
+          return { error: { status: 500, data: error } as any };
+        }
+      },
+      providesTags: [{ type: "Category" as const, id: "MANUFACTURERS" }],
     }),
 
     /* ---------- Backward-compatible getProducts (keeps older shape) ---------- */
@@ -285,6 +299,7 @@ export const catalogApi = createApi({
 
 export const {
   useGetCategoriesQuery,
+  useGetManufacturersQuery,
   useGetProductsQuery,
   useGetProductsPaginatedQuery,
   useGetHeroBannersQuery,

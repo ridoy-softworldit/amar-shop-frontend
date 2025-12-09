@@ -10,7 +10,7 @@ type Banner = {
   link?: string;
 };
 
-export default function CategoryHeroSlider({ banners }: { banners: Banner[] }) {
+export default function ManufacturerHeroSlider({ banners }: { banners: Banner[] }) {
   const [idx, setIdx] = useState(0);
   const timerRef = useRef<number | null>(null);
 
@@ -20,7 +20,7 @@ export default function CategoryHeroSlider({ banners }: { banners: Banner[] }) {
     if (!safeBanners.length) return;
     timerRef.current = window.setInterval(() => {
       setIdx((s) => (s + 1) % safeBanners.length);
-    }, 2000);
+    }, 4500);
     return () => {
       if (timerRef.current) window.clearInterval(timerRef.current);
     };
@@ -53,19 +53,19 @@ export default function CategoryHeroSlider({ banners }: { banners: Banner[] }) {
 
   return (
     <div className="relative w-full rounded-lg overflow-hidden">
-      <div className="w-full h-32 md:h-48 lg:h-64 relative">
+      <div className="w-full h-56 md:h-80 lg:h-96 relative">
         <Image
           src={safeBanners[idx]?.image ?? "/images/placeholder.png"}
           alt={safeBanners[idx]?.title ?? "banner"}
           fill
-          style={{ objectFit: "contain" }}
+          style={{ objectFit: "cover" }}
           sizes="(max-width:640px) 100vw, 100vw"
           priority={idx === 0}
         />
         {/* overlay title */}
         {safeBanners[idx]?.title && (
-          <div className="absolute left-2 bottom-1 bg-black/40 text-white px-2 py-1 rounded-md">
-            <h3 className="font-semibold text-xs md:text-base">
+          <div className="absolute left-4 bottom-6 bg-black/40 text-white px-3 py-2 rounded-md">
+            <h3 className="font-semibold text-sm md:text-base">
               {safeBanners[idx]?.title}
             </h3>
           </div>
@@ -76,14 +76,14 @@ export default function CategoryHeroSlider({ banners }: { banners: Banner[] }) {
       <button
         aria-label="Previous"
         onClick={prev}
-        className="absolute left-3 top-1/2 -translate-y-1/2 z-30 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg border border-gray-200 text-gray-700 hover:text-gray-900 text-xl font-bold"
+        className="absolute left-3 top-1/2 -translate-y-1/2 z-20 bg-white/80 hover:bg-white p-2 rounded-full shadow"
       >
         ‹
       </button>
       <button
         aria-label="Next"
         onClick={next}
-        className="absolute right-3 top-1/2 -translate-y-1/2 z-30 bg-white/90 hover:bg-white p-3 rounded-full shadow-lg border border-gray-200 text-gray-700 hover:text-gray-900 text-xl font-bold"
+        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 bg-white/80 hover:bg-white p-2 rounded-full shadow"
       >
         ›
       </button>

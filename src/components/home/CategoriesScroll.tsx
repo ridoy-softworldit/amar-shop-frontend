@@ -169,9 +169,9 @@ export default function CategoriesScroll({
                                transition hover:border-cyan-300 hover:shadow"
                   >
                     <div className="relative mx-2 mt-2 h-[120px] md:h-[130px] lg:h-[138px] overflow-hidden rounded-lg bg-gray-50 flex items-center justify-center p-1">
-                      {cat.image ? (
+                      {cat.images?.[0] ? (
                         <img
-                          src={cat.image}
+                          src={cat.images[0]}
                           alt={cat.title}
                           style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
                         />

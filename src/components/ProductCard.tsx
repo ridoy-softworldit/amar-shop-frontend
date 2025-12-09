@@ -356,7 +356,7 @@ export default function ProductCard({
      Mobile card (matches TrendingGrid mobile layout)
      ----------------------- */
   const MobileCard = (
-    <article className="lg:hidden bg-white min-w-[48%] max-w-[48%] rounded-md overflow-hidden border border-cyan-300 shadow-sm p-2 flex flex-col gap-1">
+    <article className="lg:hidden bg-white min-w-[48%] max-w-[48%] flex-shrink-0 rounded-md overflow-hidden border border-cyan-300 shadow-sm p-2 flex flex-col gap-1">
       <div className="w-full">
         <div className="relative h-24 rounded-md overflow-hidden border flex items-center justify-center bg-white">
           {showDiscount && discount > 0 && (
@@ -380,21 +380,39 @@ export default function ProductCard({
           </h3>
         </div>
       </div>
-      <div className="w-full flex items-center gap-2">
-        <div className="text-sm text-black font-bold">
-          {formatPrice(price)}
-        </div>
-        {compare > price && (
-          <div className="text-[10px] text-gray-500 line-through">
-            {formatPrice(compare)}
+
+      <div className="w-full flex items-center justify-between gap-1">
+        <div className="flex items-center gap-1">
+          <div className="text-sm text-black font-bold">
+            {formatPrice(price * quantity)}
           </div>
-        )}
+          {compare > price && (
+            <div className="text-[10px] text-gray-500 line-through">
+              {formatPrice(compare * quantity)}
+            </div>
+          )}
+        </div>
+        <div className="flex items-center gap-0.5 bg-gray-200 rounded px-1 py-0.5">
+          <button
+            onClick={decrementQuantity}
+            disabled={quantity <= 1 || adding || buying || isOut}
+            className="w-5 h-5 rounded bg-white text-black flex items-center justify-center text-xs font-bold disabled:opacity-50"
+          >
+            −
+          </button>
+          <span className="w-6 text-center text-xs font-bold text-black">{quantity}</span>
+          <button
+            onClick={incrementQuantity}
+            disabled={adding || buying || isOut || quantity >= available}
+            className="w-5 h-5 rounded bg-white text-black flex items-center justify-center text-xs font-bold disabled:opacity-50"
+          >
+            +
+          </button>
+        </div>
       </div>
+
       <button
-        onClick={() => {
-          setQuantity(1);
-          handleAdd();
-        }}
+        onClick={handleAdd}
         disabled={isOut || adding || buying}
         className="w-full px-2 py-1.5 bg-[#167389] text-white rounded-md text-xs font-medium disabled:opacity-50"
       >

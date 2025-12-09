@@ -30,6 +30,8 @@ if (!API) {
 export type ProductsQuery = {
   q?: string;
   category?: string;
+  subcategory?: string;
+  brand?: string;
   discounted?: "true" | "false";
   featured?: "true" | "false";
   limit?: number;
@@ -190,6 +192,36 @@ export async function fetchCategories() {
       ok: true as const,
       data: [] as ReturnType<typeof ZCategory.parse>[],
     };
+  }
+}
+
+export async function fetchManufacturers() {
+  try {
+    const raw = await getJSON<unknown>("/brands");
+    const arr = normalizeCategoriesShape(raw);
+    // Convert string array to manufacturer objects
+    const manufacturers = arr.map((name: unknown, index: number) => ({
+      _id: `brand-${index}`,
+      title: String(name),
+      slug: String(name).toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+      status: "ACTIVE"
+    }));
+    return { ok: true as const, data: manufacturers };
+  } catch (error) {
+    console.error("Failed to fetch manufacturers:", error);
+    return { ok: true as const, data: [] };
+  }
+}
+
+export async function fetchSubcategories(categoryId?: string) {
+  try {
+    const params = categoryId ? { categoryId } : {};
+    const raw = await getJSON<unknown>("/subcategories", params);
+    const arr = normalizeCategoriesShape(raw);
+    return { ok: true as const, data: arr };
+  } catch (error) {
+    console.error("Failed to fetch subcategories:", error);
+    return { ok: true as const, data: [] };
   }
 }
 

@@ -5,7 +5,7 @@ export const ZCategory = z.object({
   _id: z.string(),
   title: z.string(),
   slug: z.string(),
-  image: z.string().optional(),
+  images: z.array(z.string()).optional(),
   status: z.enum(["ACTIVE", "HIDDEN"]),
 });
 
