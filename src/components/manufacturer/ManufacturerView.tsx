@@ -59,11 +59,6 @@ export default async function ManufacturerView({ slug }: ManufacturerViewProps) 
           </div>
         </div>
 
-        {/* Hero slider */}
-        <section>
-          <ManufacturerHeroSlider banners={banners} />
-        </section>
-
         {/* Products grid (client-managed pagination) */}
         <section>
           <ManufacturerProducts

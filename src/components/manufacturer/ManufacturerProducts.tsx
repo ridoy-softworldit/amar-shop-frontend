@@ -92,7 +92,21 @@ export default function ManufacturerProducts({
 
   return (
     <div className="space-y-4">
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6">
+      {/* Mobile Layout */}
+      <div className="lg:hidden grid grid-cols-2 gap-3">
+        {Array.isArray(items) && items.length > 0 ? (
+          items.map((p) => (
+            <ProductCard key={p._id} product={p} />
+          ))
+        ) : (
+          <div className="col-span-2 text-center text-gray-500 py-8">
+            No products found
+          </div>
+        )}
+      </div>
+
+      {/* Desktop Layout */}
+      <div className="hidden lg:grid lg:grid-cols-2 xl:grid-cols-4 gap-6">
         {Array.isArray(items) && items.length > 0 ? (
           items.map((p) => (
             <div key={p._id} className="min-w-0">
