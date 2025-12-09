@@ -7,7 +7,7 @@ import { HeartPulse, Sparkles, ShieldCheck, Truck, Smile } from "lucide-react";
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-white to-cyan-50 text-[#167389]">
+    <main className="min-h-screen bg-linear-to-b from-white to-cyan-50 text-[#167389]">
       {/* ✅ Hero Section */}
       <section className="relative flex flex-col items-center text-center px-6 py-16 sm:py-20 lg:py-24">
         <motion.div
@@ -77,7 +77,7 @@ export default function AboutPage() {
       </section>
 
       {/* ✅ Why Choose Us */}
-      <section className="px-6 py-20 bg-gradient-to-b from-cyan-50 to-white">
+      <section className="px-6 py-20 bg-linear-to-b from-cyan-50 to-white">
         <h2 className="text-2xl sm:text-3xl font-bold text-center text-[#167389] mb-12">
           Why Choose Us
         </h2>

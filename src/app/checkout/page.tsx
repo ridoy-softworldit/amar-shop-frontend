@@ -147,7 +147,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="mt-6 bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50 min-h-screen py-8 px-4 sm:px-6">
+    <div className="mt-6 bg-linear-to-br from-pink-50 via-rose-50 to-purple-50 min-h-screen py-8 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto pt-10">
         {/* Header */}
         <motion.div
@@ -155,7 +155,7 @@ export default function CheckoutPage() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-6 sm:mb-8 text-center"
         >
-          <h1 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#167389] to-[#125f70]">
+          <h1 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-linear-to-r from-[#167389] to-[#125f70]">
             Checkout
           </h1>
           <p className="text-gray-600 text-sm sm:text-base mt-1">
@@ -195,7 +195,7 @@ export default function CheckoutPage() {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-6 bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-2xl p-4"
+            className="mb-6 bg-linear-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-2xl p-4"
           >
             <div className="flex items-start gap-3">
               <LogIn className="w-5 h-5 text-cyan-600 mt-0.5" />

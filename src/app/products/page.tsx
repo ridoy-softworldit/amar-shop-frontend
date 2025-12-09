@@ -145,7 +145,7 @@ export default async function ProductsPage({
         {/* ====== Header: title, subtitle, controls (clean & accessible) ====== */}
         <div className="mb-8 md:mb-12">
           <div className="flex items-start gap-4">
-            <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br from-[#167389] to-[#0f6b76] text-white shrink-0">
+            <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-linear-to-br from-[#167389] to-[#0f6b76] text-white shrink-0">
               <Grid3x3 className="w-6 h-6" aria-hidden />
             </div>
 
