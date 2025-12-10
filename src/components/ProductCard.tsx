@@ -200,7 +200,7 @@ export default function ProductCard({
         {/* TOP LEFT: discount / low / out badge */}
         <div className="absolute top-3 left-3 flex gap-2 pointer-events-none">
           {showDiscount && discount > 0 && (
-            <span className="bg-gradient-to-r from-pink-600 to-rose-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-sm">
+            <span className="bg-linear-to-r from-pink-600 to-rose-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-sm">
               -{discount}%
             </span>
           )}
@@ -237,7 +237,7 @@ export default function ProductCard({
         <Link href={`/products/${slug}`} className="mb-2">
           <h3
             className={`font-semibold text-gray-800 line-clamp-2 ${
-              compact ? "text-sm min-h-[2rem]" : "text-base min-h-[2.5rem]"
+              compact ? "text-sm min-h-8" : "text-base min-h-10"
             }`}
           >
             {title}
@@ -339,8 +339,8 @@ export default function ProductCard({
               disabled={isOut || adding || buying}
               className={`flex items-center justify-center gap-2 font-semibold rounded-lg transition-all disabled:opacity-60 disabled:cursor-not-allowed active:scale-95 ${
                 compact
-                  ? "px-2 py-1.5 text-xs bg-gradient-to-r from-pink-600 to-rose-600 text-white"
-                  : "flex-1 px-3 py-2 text-sm bg-gradient-to-r from-pink-600 to-rose-600 text-white hover:from-pink-700 hover:to-rose-700"
+                  ? "px-2 py-1.5 text-xs bg-linear-to-r from-pink-600 to-rose-600 text-white"
+                  : "flex-1 px-3 py-2 text-sm bg-linear-to-r from-pink-600 to-rose-600 text-white hover:from-pink-700 hover:to-rose-700"
               }`}
             >
               <Eye className={compact ? "w-3 h-3" : "w-4 h-4"} />
@@ -356,7 +356,7 @@ export default function ProductCard({
      Mobile card (matches TrendingGrid mobile layout)
      ----------------------- */
   const MobileCard = (
-    <article className="lg:hidden bg-white min-w-[48%] max-w-[48%] flex-shrink-0 rounded-md overflow-hidden border border-cyan-300 shadow-sm p-2 flex flex-col gap-1">
+    <article className="lg:hidden bg-white min-w-[48%] max-w-[48%] shrink-0 rounded-md overflow-hidden border border-cyan-300 shadow-sm p-2 flex flex-col gap-1">
       <div className="w-full">
         <div className="relative h-24 rounded-md overflow-hidden border flex items-center justify-center bg-white">
           {showDiscount && discount > 0 && (
