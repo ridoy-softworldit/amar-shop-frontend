@@ -7,8 +7,8 @@ export type AppProduct = {
   slug: string;
   price: number;
   status?: "ACTIVE" | "DRAFT" | "HIDDEN";
-  brand?: string;
-  manufacturer?: string;
+  brand?: string | null;
+  manufacturer?: string | null;
   description?: string;
   image?: string;
   images?: string[];

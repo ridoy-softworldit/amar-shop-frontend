@@ -51,7 +51,6 @@ export default function HomePage() {
   // APIs (RTK hooks)
   const { data: catRes, isLoading: catLoading } = useGetCategoriesQuery();
   const { data: hotRes, isLoading: hotLoading } = useGetProductsQuery({
-    discounted: "true",
     limit: 16,
   });
   const { data: newRes, isLoading: newLoading } = useGetProductsQuery({

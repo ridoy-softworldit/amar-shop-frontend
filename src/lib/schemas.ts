@@ -16,8 +16,8 @@ export const ZProduct = z.object({
   image: z.string().optional(), // legacy single
   images: z.array(z.string()).optional(), // ⭐ multi
   price: z.coerce.number().min(0),
-  brand: z.string().optional(),
-  manufacturer: z.string().optional(),
+  brand: z.string().nullable().optional(),
+  manufacturer: z.string().nullable().optional(),
   compareAtPrice: z.coerce.number().min(0).optional(),
 
   isDiscounted: z.boolean().optional(),
@@ -25,6 +25,7 @@ export const ZProduct = z.object({
   stock: z.number().optional(),
    availableStock: z.number().optional(),
   categorySlug: z.string().optional(),
+  subcategorySlug: z.string().optional(),
   tagSlugs: z.array(z.string()).optional(),
   status: z.enum(["ACTIVE", "DRAFT", "HIDDEN"]),
   createdAt: z.string().optional(),

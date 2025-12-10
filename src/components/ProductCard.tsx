@@ -356,7 +356,7 @@ export default function ProductCard({
      Mobile card (matches TrendingGrid mobile layout)
      ----------------------- */
   const MobileCard = (
-    <article className="lg:hidden bg-white w-full rounded-md overflow-hidden border border-cyan-300 shadow-sm p-2 flex flex-col gap-1">
+    <article className="lg:hidden bg-white min-w-[48%] max-w-[48%] flex-shrink-0 rounded-md overflow-hidden border border-cyan-300 shadow-sm p-2 flex flex-col gap-1">
       <div className="w-full">
         <div className="relative h-24 rounded-md overflow-hidden border flex items-center justify-center bg-white">
           {showDiscount && discount > 0 && (
