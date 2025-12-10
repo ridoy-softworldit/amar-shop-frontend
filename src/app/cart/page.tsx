@@ -228,17 +228,17 @@ export default function CartPage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.18 }}
-                    className="bg-white rounded-md border border-cyan-200 p-2 sm:p-4 md:p-5 shadow-sm flex items-center gap-3 h-30"
+                    className="bg-white rounded-md border border-cyan-200 p-2 sm:p-4 md:p-5 shadow-sm flex items-start gap-3"
                   >
                     {/* Left: image */}
                     <div className="relative shrink-0">
-                      <div className="w-30 h-25 xs:w-24 xs:h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-md p-1 overflow-hidden bg-gray-50 ring-1 ring-cyan-100 flex items-center justify-center">
+                      <div className="w-16 h-16 xs:w-20 xs:h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-md overflow-hidden bg-gray-50 ring-1 ring-cyan-100 flex items-center justify-center flex-shrink-0">
                         <Image
                           src={item.image || "https://via.placeholder.com/112"}
                           alt={item.title}
                           width={128}
                           height={128}
-                          className="object-cover w-full h-full transition-transform duration-300"
+                          className="object-contain max-w-full max-h-full"
                         />
                       </div>
                       {outOfStock && (

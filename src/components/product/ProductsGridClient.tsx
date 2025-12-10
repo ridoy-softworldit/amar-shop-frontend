@@ -3,7 +3,7 @@
 "use client";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ProductCard from "@/components/ProductCard";
-import type { Product } from "@/types";
+import type { Product } from "@/types/product";
 import { fetchProducts } from "@/services/catalog";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,7 +19,7 @@ interface Meta {
 }
 
 interface Props {
-  initialItems: Product[];
+  initialItems: any[];
   initialMeta: Meta;
   category?: string | null;
   q?: string | null;
@@ -315,9 +315,10 @@ export default function ProductsGridClient({
       {/* ---------- MOBILE: list rows with image-left, badges outside image, title bottom-left, stock bottom-right ---------- */}
       <div className="lg:hidden space-y-3">
         {items.map((p) => {
-          const cover = Array.isArray(p.image)
-            ? p.image[0] || FALLBACK_IMG
-            : p.image || FALLBACK_IMG;
+          const cover =
+            (p.image && p.image.trim()) ||
+            (Array.isArray(p.images) && p.images.length > 0 ? p.images[0] : '') ||
+            FALLBACK_IMG;
           const showCompare =
             p.compareAtPrice != null &&
             p.price != null &&
@@ -340,78 +341,58 @@ export default function ProductsGridClient({
           return (
             <div
               key={p._id}
-              className="bg-white rounded-md overflow-hidden border border-cyan-200 shadow-sm p-2 flex items-start gap-1 h-38"
+              className="bg-white rounded-md overflow-hidden border border-gray-200 shadow-sm p-2 flex items-center gap-2"
             >
-              {/* LEFT: image + below it title (left) and stock (right) */}
-              <div className="w-25 flex-shrink-0">
-                {/* discount above image (not overlay) */}
+              {/* LEFT: image + discount badge */}
+              <div className="w-24 shrink-0">
                 <div className="mb-1">
                   {discount > 0 && (
-                    <div className="inline-block bg-pink-50 text-pink-600 text-xs font-semibold px-1 py-0.5 rounded-full">
-                      {discount}% OFF
-                    </div>
+                    <span className="inline-block bg-pink-50 text-pink-600 text-xs font-semibold px-2 py-0.5 rounded-full">
+                      {discount}%
+                    </span>
                   )}
                 </div>
-
-                <div className="relative h-20 w-20 rounded-md overflow-hidden bg-white border flex items-center justify-center">
-                  <Link
-                    href={`/products/${encodeURIComponent(p.slug ?? p._id)}`}
-                    aria-label={`View ${p.title}`}
-                  >
-                    <Image
-                      src={cover}
-                      alt={p.title}
-                      fill
-                      sizes="80px"
-                      className="object-cover"
-                    />
-                  </Link>
-                </div>
-
-                {/* title (bottom-left) and stock (bottom-right) below image */}
-                <div className="mt-2 flex items-center justify-between gap-2 min-w-0">
-                  <div className="min-w-0">
-                    <h4 className="text-xs font-semibold text-gray-900 line-clamp-2">
-                      {p.title}
-                    </h4>
-                  </div>
-                  <div>
-                    <div
-                      className={`text-xs px-3 py-0.5 rounded-md font-extralight ${
-                        available <= 0
-                          ? "bg-red-100 text-red-800"
-                          : "bg-black/70 text-white"
-                      }`}
-                    >
-                      {available <= 0 ? "Out" : `Stock: ${available}`}
-                    </div>
-                  </div>
-                </div>
+                <Link
+                  href={`/products/${encodeURIComponent(p.slug ?? p._id)}`}
+                  aria-label={`View ${p.title}`}
+                  className="relative h-24 w-24 rounded-md overflow-hidden bg-white border flex items-center justify-center block"
+                >
+                  <Image
+                    src={cover}
+                    alt={p.title}
+                    fill
+                    sizes="96px"
+                    className="object-contain"
+                    unoptimized
+                    onError={(e) => {
+                      e.currentTarget.src = FALLBACK_IMG;
+                    }}
+                  />
+                </Link>
               </div>
 
-              {/* CENTER: price, compare, delivery info (kept compact) */}
+              {/* CENTER: title, price, delivery */}
               <div className="flex-1 min-w-0">
-                {/* <div className="text-xs text-gray-500 mb-1 line-clamp-1">
+                <div className="text-xs text-gray-500 mb-1 line-clamp-1">
                   {p.brand ?? p.manufacturer ?? ""}
-                </div> */}
+                </div>
 
                 <Link
                   href={`/products/${encodeURIComponent(p.slug ?? p._id)}`}
                   className="block"
                 >
-                  <div className="hidden">
-                    {" "}
-                    {/* title duplicated for accessibility but visually we already show it under image */}{" "}
-                  </div>
+                  <h3 className="text-sm font-semibold text-gray-900 line-clamp-2">
+                    {p.title}
+                  </h3>
                 </Link>
 
-                <div>
+                <div className="mt-2">
                   <div className="text-lg font-bold text-gray-900">
-                    ৳{Number(p.price ?? 0).toLocaleString()}
+                    ৳{Number(p.price).toLocaleString()}
                   </div>
                   {showCompare && (
                     <div className="text-xs text-gray-400 line-through">
-                      ৳{Number(p.compareAtPrice ?? 0).toLocaleString()}
+                      ৳{Number(p.compareAtPrice).toLocaleString()}
                     </div>
                   )}
                   <div className="text-xs text-gray-500 mt-1">
@@ -420,10 +401,10 @@ export default function ProductsGridClient({
                 </div>
               </div>
 
-              {/* RIGHT: vertical actions (qty + buttons) */}
-              <div className="w-28 flex-shrink-0 flex flex-col justify-between">
+              {/* RIGHT: qty + actions */}
+              <div className="w-28 shrink-0 flex flex-col justify-between">
                 <div>
-                  <div className="text-xs text-gray-700 font-extralight mb-1">
+                  <div className="text-xs text-gray-700 font-medium mb-1">
                     Qty
                   </div>
 
@@ -432,18 +413,20 @@ export default function ProductsGridClient({
                       onClick={() => decrementQuantity(p._id)}
                       disabled={loadingState || qty <= 1}
                       className="w-6 h-6 rounded-md bg-white text-black border flex items-center justify-center disabled:opacity-50"
-                      aria-label={`Decrease qty for ${p.title}`}
+                      aria-label={`Decrease quantity for ${p.title}`}
                     >
                       −
                     </button>
 
-                    <div className="flex-1 text-center font-bold">{qty}</div>
+                    <div className="flex-1 text-black text-center font-bold">
+                      {qty}
+                    </div>
 
                     <button
                       onClick={() => incrementQuantity(p._id)}
                       disabled={loadingState || qty >= Math.max(1, stock)}
                       className="w-6 h-6 rounded-md bg-white text-black border flex items-center justify-center disabled:opacity-50"
-                      aria-label={`Increase qty for ${p.title}`}
+                      aria-label={`Increase quantity for ${p.title}`}
                     >
                       +
                     </button>
@@ -453,7 +436,7 @@ export default function ProductsGridClient({
                     <div className="text-sm text-black font-semibold">
                       ৳{((Number(p.price) || 0) * qty).toLocaleString()}
                     </div>
-                    {discount > 0 && (
+                    {showCompare && (
                       <div className="text-xs text-gray-500 line-through">
                         ৳{(Number(p.compareAtPrice) || 0).toLocaleString()}
                       </div>
@@ -461,11 +444,11 @@ export default function ProductsGridClient({
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-1 mt-1">
+                <div className="flex flex-col gap-1 my-1">
                   <button
                     onClick={() => handleAddToCart(p)}
                     disabled={available <= 0 || loadingState}
-                    className="w-full px-2 py-1 bg-[#167389] text-white rounded-md text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-1 py-1 bg-[#167389] text-white rounded-md text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {loadingState ? "Adding..." : "Add to Bag"}
                   </button>
@@ -473,7 +456,7 @@ export default function ProductsGridClient({
                   <button
                     onClick={() => handleBuyNow(p)}
                     disabled={available <= 0 || loadingState}
-                    className="w-full px-2 py-1 bg-gradient-to-r from-pink-600 to-rose-600 text-white rounded-md text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-2 py-1 bg-linear-to-r from-pink-600 to-rose-600 text-white rounded-md text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {loadingState ? "Processing..." : "Buy Now"}
                   </button>
@@ -485,7 +468,7 @@ export default function ProductsGridClient({
       </div>
 
       {/* ---------- DESKTOP GRID: unchanged ---------- */}
-      <div className="hidden lg:grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6 mt-4">
+      <div className="hidden lg:grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6">
         {items.map((product) => (
           <div key={product._id} className="min-w-0">
             <ProductCard product={product} />

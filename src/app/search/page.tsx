@@ -231,8 +231,8 @@ export default function SearchPageRTK() {
           slug: p.slug ?? "",
           price: Number(p.price ?? 0),
           image:
-            p.image ??
-            (Array.isArray(p.images) ? (p.images as any)[0] : undefined) ??
+            (Array.isArray(p.images) && p.images.length > 0 ? p.images[0] : '') ||
+            (p.image && typeof p.image === 'string' ? p.image : '') ||
             FALLBACK_IMG,
           quantity: qty,
         });
@@ -280,8 +280,8 @@ export default function SearchPageRTK() {
           slug: p.slug ?? "",
           price: Number(p.price ?? 0),
           image:
-            p.image ??
-            (Array.isArray(p.images) ? (p.images as any)[0] : undefined) ??
+            (Array.isArray(p.images) && p.images.length > 0 ? p.images[0] : '') ||
+            (p.image && typeof p.image === 'string' ? p.image : '') ||
             FALLBACK_IMG,
           quantity: qty,
         });
@@ -352,8 +352,8 @@ export default function SearchPageRTK() {
           <div className="lg:hidden space-y-3">
             {parsedProducts.map((p) => {
               const cover =
-                (p.image && p.image.trim()) ||
                 (Array.isArray(p.images) && p.images.length > 0 ? p.images[0] : '') ||
+                (p.image && typeof p.image === 'string' && p.image.trim()) ||
                 FALLBACK_IMG;
 
               const showCompare =
