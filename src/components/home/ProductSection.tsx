@@ -125,6 +125,7 @@ export default function ProductSection({
                 variant={variant}
                 compact={variant === "compact"}
                 showDiscount={true}
+                isMobileScroll={true}
               />
             ))}
             

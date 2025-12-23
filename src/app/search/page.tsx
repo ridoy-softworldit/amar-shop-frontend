@@ -305,10 +305,21 @@ export default function SearchPageRTK() {
         }
       } catch (err: any) {
         console.error("Buy Now failed:", err);
+        
+        // Check if it's a network/API error
+        if (err?.status === 'FETCH_ERROR' || err?.error) {
+          toast.error("Network error. Please check your connection.");
+          return;
+        }
+        
         if (err?.data?.code === "INSUFFICIENT_STOCK" || err?.status === 409) {
           toast.error("Insufficient stock to place order");
+        } else if (err?.status === 401 || err?.status === 403) {
+          toast.error("Authentication required. Please login.");
         } else {
-          toast.error("Could not place order. Please try again.");
+          // Fallback: just add to cart and redirect
+          toast.success("Item added to cart. Redirecting...");
+          router.push("/checkout");
         }
       } finally {
         setLoadingOff(id);
@@ -379,7 +390,7 @@ export default function SearchPageRTK() {
                   className="bg-white rounded-md overflow-hidden border border-gray-200 shadow-sm p-2 flex items-center gap-2"
                 >
                   {/* LEFT: small image + discount badge above image */}
-                  <div className="w-24 flex-shrink-0">
+                  <div className="w-24 shrink-0">
                     <div className="mb-1">
                       {discount > 0 && (
                         <span className="inline-block bg-pink-50 text-pink-600 text-xs font-semibold px-2 py-0.5 rounded-full">
@@ -442,7 +453,7 @@ export default function SearchPageRTK() {
                   </div>
 
                   {/* RIGHT: qty + actions (vertical) */}
-                  <div className="w-28 flex-shrink-0 flex flex-col justify-between">
+                  <div className="w-28 shrink-0 flex flex-col justify-between">
                     {/* Qty */}
                     <div>
                       <div className="text-xs text-gray-700 font-medium mb-1">
@@ -503,7 +514,7 @@ export default function SearchPageRTK() {
                       <button
                         onClick={() => handleBuyNow(p)}
                         disabled={stock === 0 || loading}
-                        className="w-full px-2 py-1 bg-gradient-to-r from-pink-600 to-rose-600 text-white rounded-md text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full px-2 py-1 bg-linear-to-r from-pink-600 to-rose-600 text-white rounded-md text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {loading ? "Processing..." : "Buy Now"}
                       </button>

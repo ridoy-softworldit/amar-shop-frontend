@@ -56,7 +56,7 @@ function RelatedCard({ product }: { product: Product | any }) {
       href={`/products/${product.slug}`}
       className="rel-card h-full flex flex-col rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition"
     >
-      <div className="relative aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-[#F5FDF8] to-[#F5FDF8]">
+      <div className="relative aspect-square rounded-xl overflow-hidden bg-linear-to-br from-[#F5FDF8] to-[#F5FDF8]">
         <Image
           src={img}
           alt={product.title}
@@ -68,7 +68,7 @@ function RelatedCard({ product }: { product: Product | any }) {
       </div>
 
       <div className="p-3 flex-1 flex flex-col">
-        <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 min-h-[2.75rem]">
+        <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 min-h-11">
           {product.title}
         </h3>
 

@@ -19,6 +19,7 @@ type Props = {
   onAddToCart?: (p: any, qty?: number) => Promise<void> | void;
   onLocalStockChange?: (id: string, newStock: number) => void;
   variant?: "default" | "compact";
+  isMobileScroll?: boolean;
 };
 
 const formatPrice = (v?: number) =>
@@ -31,6 +32,7 @@ export default function ProductCard({
   onAddToCart,
   onLocalStockChange,
   variant = "default",
+  isMobileScroll = false,
 }: Props) {
   const router = useRouter();
   const addItem = useCartStore((s) => s.addItem);
@@ -356,12 +358,19 @@ export default function ProductCard({
      Mobile card (matches TrendingGrid mobile layout)
      ----------------------- */
   const MobileCard = (
-    <article className="lg:hidden bg-white min-w-[48%] max-w-[48%] shrink-0 rounded-md overflow-hidden border border-cyan-300 shadow-sm p-2 flex flex-col gap-1">
+    <article className={`lg:hidden bg-white rounded-md overflow-hidden border border-cyan-300 shadow-sm p-2 flex flex-col gap-1 ${
+      isMobileScroll ? 'min-w-[48%] max-w-[48%] shrink-0' : 'w-full'
+    }`}>
       <div className="w-full">
         <div className="relative h-24 rounded-md overflow-hidden border flex items-center justify-center bg-white">
           {showDiscount && discount > 0 && (
             <span className="absolute top-1 left-1 bg-pink-600 text-white px-2 py-0.5 rounded-full text-[10px] font-bold z-10">
               {discount}% OFF
+            </span>
+          )}
+          {isOut && (
+            <span className="absolute top-1 right-1 bg-red-600 text-white px-2 py-0.5 rounded-full text-[10px] font-bold z-10">
+              Out
             </span>
           )}
           <Link href={`/products/${slug}`} aria-label={`View ${title}`}>
@@ -378,6 +387,13 @@ export default function ProductCard({
           <h3 className="text-[11px] font-semibold line-clamp-2 text-black leading-tight">
             {title}
           </h3>
+          <div className="text-[10px] text-gray-600 mt-0.5">
+            {isOut ? (
+              <span className="text-red-600 font-semibold">Out of Stock</span>
+            ) : (
+              <span className="text-green-600 font-semibold">Stock: {available}</span>
+            )}
+          </div>
         </div>
       </div>
 

@@ -106,7 +106,7 @@ export default function CategoryProducts({
 
   return (
     <div className="space-y-4">
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6">
         {Array.isArray(items) && items.length > 0 ? (
           items.map((p) => (
             <div key={p._id} className="min-w-0">

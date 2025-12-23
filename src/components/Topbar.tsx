@@ -279,10 +279,10 @@ export default function Topbar() {
                 </button>
               </div>
             </form>
-            <button className="px-3 py-2 bg-white/10 text-white border-2 border-white/20 rounded-md text-sm font-semibold">
+            <button className="px-1 py-2 bg-white/10 text-white border-2 border-white/20 rounded-md text-xs font-semibold whitespace-nowrap">
               বাংলা
             </button>
-            <button className="px-3 py-2 bg-white text-cyan-600 border-2 border-white rounded-md text-sm font-semibold">
+            <button className="px-1 py-2 bg-white text-cyan-600 border-2 border-white rounded-md text-xs font-semibold whitespace-nowrap">
               English
             </button>
           </div>
