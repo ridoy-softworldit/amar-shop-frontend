@@ -82,7 +82,7 @@ export default function ManufacturersSection() {
                 {manufacturer.image ? (
                   <Image
                     src={manufacturer.image}
-                    alt={manufacturer.title}
+                    alt={manufacturer.name}
                     width={64}
                     height={64}
                     className="w-full h-full object-contain rounded-lg"
@@ -92,7 +92,7 @@ export default function ManufacturersSection() {
                 )}
               </div>
               <h3 className="text-xs font-medium text-gray-700 text-center truncate group-hover:text-[#167389] transition-colors uppercase">
-                {manufacturer.title.toUpperCase()}
+                {manufacturer.name.toUpperCase()}
               </h3>
             </Link>
           </motion.div>

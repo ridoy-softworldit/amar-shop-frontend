@@ -82,7 +82,7 @@ export default function ManufacturersPage() {
                 {manufacturer.image ? (
                   <img
                     src={manufacturer.image}
-                    alt={manufacturer.title}
+                    alt={manufacturer.name}
                     style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
                   />
                 ) : (
@@ -92,7 +92,7 @@ export default function ManufacturersPage() {
 
               <div className="absolute bottom-0 left-0 right-0 bg-white p-2" style={{ height: '60px' }}>
                 <h3 className="text-sm sm:text-base font-semibold text-gray-700 text-center leading-tight mb-2">
-                  {manufacturer.title}
+                  {manufacturer.name}
                 </h3>
                 <div className="flex items-center justify-center gap-1 text-cyan-600 text-xs sm:text-sm font-medium">
                   <span>View</span>

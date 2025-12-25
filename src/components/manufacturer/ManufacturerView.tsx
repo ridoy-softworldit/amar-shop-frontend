@@ -20,10 +20,9 @@ export default async function ManufacturerView({ slug }: ManufacturerViewProps) 
   const manufacturersRes = await fetchManufacturers().catch(() => ({ ok: true, data: [] }));
   const manufacturers: any[] = (manufacturersRes && (manufacturersRes as any).data) || [];
   const activeManufacturer = manufacturers.find((m) => m.slug === slug);
-  const brandName = activeManufacturer?.title || decodeURIComponent(slug).replace(/-/g, ' ');
+  const brandName = activeManufacturer?.name || decodeURIComponent(slug).replace(/-/g, ' ');
   
-  // fetch products with actual brand name
-  const productsRes = await fetchProducts({ brand: brandName, limit: 8 }).catch(() => ({
+  const productsRes = await fetchProducts({ brand: slug, limit: 8 }).catch(() => ({
     ok: true,
     data: [] as Product[],
   }));
@@ -59,7 +58,16 @@ export default async function ManufacturerView({ slug }: ManufacturerViewProps) 
           </div>
         </div>
 
-        {/* Products grid (client-managed pagination) */}
+        {activeManufacturer?.image && (
+          <div className="w-full bg-gray-50 rounded-2xl p-8 flex items-center justify-center">
+            <img
+              src={activeManufacturer.image}
+              alt={title}
+              className="max-h-32 w-auto object-contain"
+            />
+          </div>
+        )}
+
         <section>
           <ManufacturerProducts
             initialProducts={initialProducts}

@@ -105,7 +105,7 @@ export default function MobileManufacturersGrid() {
                     {manufacturer.image ? (
                       <img
                         src={manufacturer.image}
-                        alt={manufacturer.title}
+                        alt={manufacturer.name}
                         style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
                         onError={(e) => {
                           e.currentTarget.style.display = 'none';
@@ -116,7 +116,7 @@ export default function MobileManufacturersGrid() {
                     )}
                   </div>
                   <p className="flex-1 text-[12px] font-extrabold text-gray-800 text-left leading-tight line-clamp-2 uppercase">
-                    {manufacturer.title.toUpperCase()}
+                    {manufacturer.name.toUpperCase()}
                   </p>
                 </Link>
               ))}

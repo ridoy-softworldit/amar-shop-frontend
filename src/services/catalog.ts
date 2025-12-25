@@ -197,16 +197,9 @@ export async function fetchCategories() {
 
 export async function fetchManufacturers() {
   try {
-    const raw = await getJSON<unknown>("/brands");
+    const raw = await getJSON<unknown>("/manufacturers");
     const arr = normalizeCategoriesShape(raw);
-    // Convert string array to manufacturer objects
-    const manufacturers = arr.map((name: unknown, index: number) => ({
-      _id: `brand-${index}`,
-      title: String(name),
-      slug: String(name).toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-      status: "ACTIVE"
-    }));
-    return { ok: true as const, data: manufacturers };
+    return { ok: true as const, data: arr };
   } catch (error) {
     console.error("Failed to fetch manufacturers:", error);
     return { ok: true as const, data: [] };
