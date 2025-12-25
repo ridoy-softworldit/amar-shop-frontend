@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ShoppingCart, Zap, Phone, Sparkles } from "lucide-react";
+import { ShoppingCart, Zap, Phone, Sparkles, Plus, Minus } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import type { Product } from "@/types";
 import { toast } from "react-hot-toast";
@@ -17,7 +17,7 @@ export default function ProductActions({
   hotline,
 }: ProductActionsProps) {
   const router = useRouter();
-  const [quantity] = useState(1);
+  const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
 
   // Cart store methods
@@ -30,7 +30,19 @@ export default function ProductActions({
   // Stock validation
   const isOutOfStock = (product.stock ?? 0) <= 0;
   const availableStock = product.stock ?? 0;
-  const _canIncrease = quantity < availableStock;
+
+  // Quantity handlers
+  const incrementQty = () => {
+    if (quantity < availableStock) {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const decrementQty = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
 
   // Add to Bag handler - User can add only once
   const handleAddToCart = async () => {
@@ -92,7 +104,71 @@ export default function ProductActions({
   };
 
   return (
-    <div className="space-y-4 sm:space-y-5">
+    <>
+      {/* Mobile Compact Version */}
+      <div className="lg:hidden space-y-1.5">
+        {/* Quantity Selector */}
+        <div className="flex items-center justify-center gap-1 bg-gray-200 rounded-md p-1">
+          <button
+            onClick={decrementQty}
+            disabled={quantity <= 1 || isOutOfStock}
+            className="w-6 h-6 rounded bg-white text-gray-800 flex items-center justify-center text-sm font-bold disabled:opacity-50 border border-gray-300"
+          >
+            <Minus className="w-3 h-3" />
+          </button>
+          <span className="w-6 text-center text-xs font-bold text-gray-800">{quantity}</span>
+          <button
+            onClick={incrementQty}
+            disabled={quantity >= availableStock || isOutOfStock}
+            className="w-6 h-6 rounded bg-white text-gray-800 flex items-center justify-center text-sm font-bold disabled:opacity-50 border border-gray-300"
+          >
+            <Plus className="w-3 h-3" />
+          </button>
+        </div>
+
+        {/* Add to Bag Button */}
+        <button
+          onClick={handleAddToCart}
+          disabled={isOutOfStock || isInCart || isAdding}
+          className="w-full px-2 py-1.5 bg-[#167389] text-white font-semibold rounded-md hover:bg-[#125f70] transition-all disabled:opacity-60 text-[10px]"
+        >
+          {isAdding ? "Adding..." : isInCart ? "In Cart" : "Add to Bag"}
+        </button>
+
+        {/* Order Now Button */}
+        <button
+          onClick={handleBuyNow}
+          disabled={isOutOfStock || isAdding}
+          className="w-full px-2 py-1.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-md hover:from-amber-600 hover:to-orange-600 transition-all disabled:opacity-60 text-[10px]"
+        >
+          Order Now
+        </button>
+      </div>
+
+      {/* Desktop Version (unchanged) */}
+      <div className="hidden lg:block space-y-4 sm:space-y-5">
+      {/* Quantity Selector */}
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-sm font-medium text-gray-600">Quantity:</span>
+        <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+          <button
+            onClick={decrementQty}
+            disabled={quantity <= 1 || isOutOfStock}
+            className="w-8 h-8 rounded-md bg-white border border-gray-300 flex items-center justify-center text-gray-800 font-bold disabled:opacity-50 hover:bg-gray-50 transition"
+          >
+            <Minus className="w-4 h-4" />
+          </button>
+          <span className="w-10 text-center text-sm font-bold text-gray-800">{quantity}</span>
+          <button
+            onClick={incrementQty}
+            disabled={quantity >= availableStock || isOutOfStock}
+            className="w-8 h-8 rounded-md bg-white border border-gray-300 flex items-center justify-center text-gray-800 font-bold disabled:opacity-50 hover:bg-gray-50 transition"
+          >
+            <Plus className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+
       {/* Stock Info with Beauty Theme */}
       <div className="p-3 sm:p-4 bg-gradient-to-r from-[#F5FDF8] to-[#F5FDF8] rounded-xl border-2 border-pink-200 shadow-sm">
         <div className="flex items-center justify-center gap-2">
@@ -192,6 +268,7 @@ export default function ProductActions({
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

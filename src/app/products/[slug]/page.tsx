@@ -8,6 +8,7 @@ import type { Product } from "@/types"; // তোমার প্রোজেক
 import { Check, Phone, Sparkles } from "lucide-react";
 import ProductActions from "@/components/product/ProductActions";
 import ProductThumbs from "@/components/product/ProductThumbs";
+import ProductCard from "@/components/ProductCard";
 
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
@@ -146,8 +147,130 @@ export default async function ProductDetailsPage({
   return (
     <div className="min-h-screen bg-[#F5FDF8] mt-6">
       <div className="max-w-7xl mx-auto px-4 xs:px-5 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 pt-10">
-        {/* Top layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-12">
+        {/* Mobile Compact Layout */}
+        <div className="lg:hidden">
+          <div className="bg-white rounded-2xl shadow-md border border-pink-100 p-3 mb-4">
+            {/* Product Name - Full Width at Top */}
+            <h1 className="text-base font-bold text-gray-900 mb-3 leading-tight">
+              {product.title}
+            </h1>
+            
+            <div className="flex gap-3">
+              {/* Left: Image (2/3) */}
+              <div className="w-2/3">
+                <div
+                  id={`main-img-box-${product._id}`}
+                  className="relative aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-[#F5FDF8] to-[#F5FDF8]"
+                >
+                  {finalGallery[0] ? (
+                    <Image
+                      src={finalGallery[0]}
+                      alt={product.title}
+                      fill
+                      sizes="66vw"
+                      className="object-contain"
+                      priority
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Sparkles className="w-16 h-16 text-white" />
+                    </div>
+                  )}
+                </div>
+                <div className="mt-2">
+                  <ProductThumbs
+                    title={product.title}
+                    mainBoxId={`main-img-box-${product._id}`}
+                    images={finalGallery}
+                  />
+                </div>
+              </div>
+
+              {/* Right: Pricing & Actions (1/3) */}
+              <div className="w-1/3 flex flex-col">
+                <div className="flex items-baseline gap-1 mb-1">
+                  <div className="text-lg font-bold text-pink-600">
+                    ৳{product.price.toFixed(0)}
+                  </div>
+                </div>
+                {hasDiscount && typeof product.compareAtPrice === "number" && (
+                  <div className="text-xs text-gray-400 line-through mb-1">
+                    ৳{product.compareAtPrice.toFixed(0)}
+                  </div>
+                )}
+                {hasDiscount && (
+                  <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-pink-100 text-pink-700 border border-pink-300 mb-2 inline-block">
+                    Special Offer
+                  </span>
+                )}
+                <div className="text-[10px] text-center mb-2 p-1.5 bg-gradient-to-r from-orange-50 to-rose-50 rounded-md border border-orange-200">
+                  {product.stock && product.stock > 0 ? (
+                    product.stock < 10 ? (
+                      <span className="text-orange-600 font-semibold">Only {product.stock} left</span>
+                    ) : (
+                      <span className="text-green-600 font-semibold">In Stock</span>
+                    )
+                  ) : (
+                    <span className="text-red-600 font-semibold">Out of Stock</span>
+                  )}
+                </div>
+                <div className="mt-auto space-y-2">
+                  <ProductActions product={product} hotline={hotline} />
+                </div>
+              </div>
+            </div>
+
+            {/* Category Info */}
+            <div className="mt-3 pt-3 border-t border-gray-200 text-xs text-gray-600">
+              <span className="font-semibold text-gray-800">Category:</span>{" "}
+              {product.categorySlug ? (
+                <Link
+                  className="text-[#167389] hover:text-pink-700 font-bold hover:underline"
+                  href={`/products?category=${product.categorySlug}`}
+                >
+                  {product.categorySlug}
+                </Link>
+              ) : (
+                <span className="text-gray-500">Not Available</span>
+              )}
+            </div>
+
+            {/* Order by Phone */}
+            <div className="mt-3 pt-3 border-t border-gray-200">
+              <p className="text-[10px] text-center text-gray-600 mb-2">Or Order by Phone</p>
+              <a
+                href={`tel:${hotline}`}
+                className="flex items-center justify-center gap-1.5 w-full px-3 py-2 bg-gradient-to-r from-pink-50 to-rose-50 border border-pink-300 text-pink-700 font-semibold rounded-lg hover:from-pink-100 hover:to-rose-100 text-xs"
+              >
+                <Phone className="w-3.5 h-3.5" />
+                <span>{hotline}</span>
+              </a>
+              <p className="text-[9px] text-center text-gray-500 mt-1.5">Available 9 AM - 9 PM Daily</p>
+            </div>
+          </div>
+
+          {/* Description Section */}
+          <div className="bg-white rounded-2xl shadow-md border border-pink-100 p-4">
+            <h3 className="text-base font-semibold text-gray-900">Description</h3>
+            {hasDesc ? (
+              looksHtml ? (
+                <div
+                  className="mt-2 leading-relaxed text-gray-800 text-sm break-words prose prose-sm max-w-none [&_*]:text-gray-800"
+                  dangerouslySetInnerHTML={{ __html: safeDesc }}
+                />
+              ) : (
+                <p className="mt-2 leading-relaxed text-gray-800 text-sm whitespace-pre-line break-words">
+                  {safeDesc}
+                </p>
+              )
+            ) : (
+              <p className="mt-2 text-gray-500 text-sm">No description available.</p>
+            )}
+          </div>
+        </div>
+
+        {/* Desktop Layout (unchanged) */}
+        <div className="hidden lg:grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-12">
           {/* LEFT: Image + Thumbs + Description */}
           <div className="bg-white rounded-2xl text-black sm:rounded-3xl shadow-md hover:shadow-xl transition-shadow duration-300 border border-pink-100 p-3 sm:p-4 md:p-6 lg:p-8 space-y-4">
             <div
@@ -307,9 +430,7 @@ export default async function ProductDetailsPage({
               aria-label="Related products"
             >
               {related.map((p) => (
-                <div key={p._id} className="min-w-0 h-full">
-                  <RelatedCard product={p} />
-                </div>
+                <ProductCard key={p._id} product={p} />
               ))}
             </div>
           </div>
