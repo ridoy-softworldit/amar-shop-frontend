@@ -257,45 +257,39 @@ export default function ProductsGridClient({
         });
 
         // confirm order with server (mutation)
-        const payload = { items: [{ _id: id, quantity: qty }] };
-        const response = await confirmOrder(payload).unwrap();
+        // const payload = { items: [{ _id: id, quantity: qty }] };
+        // const response = await confirmOrder(payload).unwrap();
 
-        if (response?.ok) {
-          try {
-            (removeItem as any)(id);
-          } catch (e) {
-            /* ignore if removeItem not present */
-          }
+        // if (response?.ok) {
+        //   try {
+        //     (removeItem as any)(id);
+        //   } catch (e) {
+        //     /* ignore if removeItem not present */
+        //   }
 
-          // optimistic local stock delta (optional)
-          setLocalStockDelta((prev) => ({
-            ...prev,
-            [id]: (prev[id] ?? 0) - qty,
-          }));
+        //   // optimistic local stock delta (optional)
+        //   setLocalStockDelta((prev) => ({
+        //     ...prev,
+        //     [id]: (prev[id] ?? 0) - qty,
+        //   }));
+        // }
 
-          setQuantities((prev) => ({ ...prev, [id]: 1 }));
-          toast.success("Redirecting to checkout...");
-          if (typeof window !== "undefined") window.location.href = "/checkout";
-        } else {
-          toast.error("Failed to process order");
-        }
+        setQuantities((prev) => ({ ...prev, [id]: 1 }));
+        toast.success(`${qty} × ${p.title} added to cart`);
+        setTimeout(() => {
+          if (typeof window !== "undefined") window.location.href = "/cart";
+        }, 500);
       } catch (err: any) {
         console.error("Buy Now failed:", err);
-        if (err?.data?.code === "INSUFFICIENT_STOCK" || err?.status === 409) {
-          toast.error("Insufficient stock to place order");
-        } else {
-          toast.error("Could not place order. Please try again.");
-        }
+        toast.error("Could not add to cart. Please try again.");
       } finally {
         setLoadingOff(id);
       }
     },
     [
       addItem,
-      confirmOrder,
       loadingStates,
       quantities,
-      removeItem,
       setLoadingOff,
       setLoadingOn,
     ]
@@ -456,7 +450,7 @@ export default function ProductsGridClient({
                   <button
                     onClick={() => handleBuyNow(p)}
                     disabled={available <= 0 || loadingState}
-                    className="w-full px-2 py-1 bg-linear-to-r from-pink-600 to-rose-600 text-white rounded-md text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-2 py-1 bg-gradient-to-r from-pink-600 to-rose-600 text-white rounded-md text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {loadingState ? "Processing..." : "Buy Now"}
                   </button>
