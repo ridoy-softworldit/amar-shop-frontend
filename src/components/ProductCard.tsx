@@ -387,40 +387,40 @@ export default function ProductCard({
           <h3 className="text-[11px] font-semibold line-clamp-2 text-black leading-tight">
             {title}
           </h3>
-          <div className="text-[10px] text-gray-600 mt-0.5">
-            {isOut ? (
-              <span className="text-red-600 font-semibold">Out of Stock</span>
-            ) : (
-              <span className="text-green-600 font-semibold">Stock: {available}</span>
+          <div className="flex items-center gap-1 mt-0.5">
+            <div className="text-sm text-black font-bold">
+              {formatPrice(price * quantity)}
+            </div>
+            {compare > price && (
+              <div className="text-[10px] text-gray-500 line-through">
+                {formatPrice(compare * quantity)}
+              </div>
             )}
           </div>
         </div>
       </div>
 
       <div className="w-full flex items-center justify-between gap-1">
-        <div className="flex items-center gap-1">
-          <div className="text-sm text-black font-bold">
-            {formatPrice(price * quantity)}
-          </div>
-          {compare > price && (
-            <div className="text-[10px] text-gray-500 line-through">
-              {formatPrice(compare * quantity)}
-            </div>
+        <div className="text-[10px] text-gray-600">
+          {isOut ? (
+            <span className="text-red-600 font-semibold">Out of Stock</span>
+          ) : (
+            <span className="text-green-600 font-semibold">Stock: {available}</span>
           )}
         </div>
-        <div className="flex items-center gap-0.5 bg-gray-200 rounded px-1 py-0.5">
+        <div className="flex items-center gap-0.5 bg-gray-200 rounded px-0.5 py-0.5">
           <button
             onClick={decrementQuantity}
             disabled={quantity <= 1 || adding || buying || isOut}
-            className="w-5 h-5 rounded bg-white text-black flex items-center justify-center text-xs font-bold disabled:opacity-50"
+            className="w-4 h-4 rounded bg-white text-black flex items-center justify-center text-xs font-bold disabled:opacity-50"
           >
             −
           </button>
-          <span className="w-6 text-center text-xs font-bold text-black">{quantity}</span>
+          <span className="w-5 text-center text-xs font-bold text-black">{quantity}</span>
           <button
             onClick={incrementQuantity}
             disabled={adding || buying || isOut || quantity >= available}
-            className="w-5 h-5 rounded bg-white text-black flex items-center justify-center text-xs font-bold disabled:opacity-50"
+            className="w-4 h-4 rounded bg-white text-black flex items-center justify-center text-xs font-bold disabled:opacity-50"
           >
             +
           </button>

@@ -279,50 +279,11 @@ export default function MyOrdersPage() {
               </div>
 
               {filteredOrders.map((order: Order) => (
-                <div
-                  key={order._id}
-                  className="bg-white border border-gray-200 rounded-2xl shadow-sm p-4 sm:p-6"
-                >
-                  <OrderCard order={order} />
-
-                  <div className="mt-4 border-t pt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                    <div className="text-sm text-gray-600">
-                      <span className="font-medium">Order ID:</span> {order._id}
-                      <br />
-                      <span className="text-xs text-gray-500">
-                        Created:{" "}
-                        {new Date(order.createdAt).toLocaleDateString()}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={() => handleOpenInvoice(order)}
-                        disabled={loadingInvoice[order._id]}
-                        className="inline-flex items-center gap-2 px-3 py-2 bg-[#167389] hover:bg-[#145a65] text-white rounded-lg text-sm disabled:opacity-50"
-                      >
-                        {loadingInvoice[order._id]
-                          ? "Loading..."
-                          : "View Invoice"}
-                      </button>
-
-                      <button
-                        onClick={() => {
-                          const subject = encodeURIComponent(
-                            `Invoice request for order ${order._id}`
-                          );
-                          const body = encodeURIComponent(
-                            `Hello,\n\nI would like to request an invoice for my order ${order._id}.\n\nThank you.`
-                          );
-                          window.location.href = `mailto:support@yourshop.com?subject=${subject}&body=${body}`;
-                        }}
-                        className="inline-flex items-center gap-2 px-3 py-2 border rounded-lg text-sm text-gray-700 hover:bg-gray-50"
-                      >
-                        Contact Support
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                <OrderCard 
+                  key={order._id} 
+                  order={order} 
+                  onViewInvoice={handleOpenInvoice}
+                />
               ))}
             </>
           ) : (

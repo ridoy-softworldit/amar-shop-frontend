@@ -1,96 +1,123 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Package,
-  Eye,
-  EyeOff,
-  Calendar,
-  DollarSign,
-  ShoppingBag,
-  Truck,
-} from "lucide-react";
-import StatusBadge from "./StatusBadge";
+import { Eye, ChevronDown, ChevronUp, FileText, Mail } from "lucide-react";
 import CustomerInfo from "./CustomerInfo";
 import OrderItemsList from "./OrderItemsList";
 import OrderSummary from "./OrderSummary";
 import type { Order } from "@/types/order";
 
-export default function OrderCard({ order }: { order: Order }) {
+interface OrderCardProps {
+  order: Order;
+  onViewInvoice?: (order: Order) => void;
+}
+
+export default function OrderCard({ order, onViewInvoice }: OrderCardProps) {
   const [expanded, setExpanded] = useState(false);
 
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "DELIVERED":
+        return "text-teal-500";
+      case "CANCELLED":
+        return "text-red-500";
+      case "IN_SHIPPING":
+        return "text-cyan-500";
+      default:
+        return "text-gray-500";
+    }
+  };
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case "DELIVERED":
+        return "Completed";
+      case "CANCELLED":
+        return "Rejected";
+      case "IN_SHIPPING":
+        return "Partial Delivered";
+      case "IN_PROGRESS":
+        return "Processing";
+      default:
+        return status;
+    }
+  };
+
+  const formatDate = (date: string) => {
+    const d = new Date(date);
+    const dateStr = d.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+    const timeStr = d.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+    return `${dateStr} ${timeStr}`;
+  };
+
+  const handleContactSupport = () => {
+    const subject = encodeURIComponent(`Invoice request for order ${order._id}`);
+    const body = encodeURIComponent(`Hello,\n\nI would like to request an invoice for my order ${order._id}.\n\nThank you.`);
+    window.location.href = `mailto:support@yourshop.com?subject=${subject}&body=${body}`;
+  };
+
   return (
-    <div className="bg-white rounded-2xl border border-pink-100 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm bg-opacity-95">
-      <div className="p-4 sm:p-6">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div className="flex-1 min-w-0">
-            <div className="flex flex-col xs:flex-row xs:items-center gap-3 mb-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-[#167389] rounded-lg">
-                  <Package className="w-5 h-5 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 truncate">
-                  Order #{order._id.slice(-8)}
-                </h3>
-              </div>
-              <StatusBadge status={order.status} />
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 text-sm">
-              <div className="flex items-center gap-2 text-gray-700 bg-gray-50 px-3 py-2 rounded-lg">
-                <Calendar className="w-4 h-4 text-black shrink-0" />
-                <span className="font-medium truncate">
-                  {new Date(order.createdAt ?? "").toLocaleDateString()}
-                </span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-700 bg-gray-50 px-3 py-2 rounded-lg">
-                <ShoppingBag className="w-4 h-4 text-pink-500 shrink-0" />
-                <span className="font-medium">
-                  {order.lines.length} item{order.lines.length > 1 ? "s" : ""}
-                </span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-700 bg-gray-50 px-3 py-2 rounded-lg">
-                <DollarSign className="w-4 h-4 text-pink-500 shrink-0" />
-                <span className="font-medium">৳{order.totals.subTotal}</span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-700 bg-gray-50 px-3 py-2 rounded-lg">
-                <Truck className="w-4 h-4 text-pink-500 shrink-0" />
-                <span className="font-medium">
-                  Shipping: ৳{order.totals.shipping}
-                </span>
-              </div>
-            </div>
+    <div className="bg-white rounded-lg border border-gray-200 shadow-sm">
+      <div className="p-4">
+        <div className="flex items-start justify-between gap-4 mb-3">
+          <div className="flex-1">
+            <h3 className="text-lg font-bold text-gray-900 mb-1">
+              ID: {order._id.slice(-6)}
+            </h3>
+            <p className="text-sm text-gray-500">
+              Ordered: {formatDate(order.createdAt)}
+            </p>
           </div>
+          <div className="text-right">
+            <p className="text-xl font-bold text-gray-900 mb-1">
+              ৳ {order.totals.grandTotal.toFixed(2)}
+            </p>
+            <p className="text-sm text-gray-500">
+              Items: {order.lines.length}
+            </p>
+          </div>
+        </div>
 
-          <div className="flex flex-col sm:flex-row lg:flex-col items-end gap-3 lg:gap-2">
-            <div className="text-right">
-              <div className="text-2xl lg:text-3xl font-bold bg-linear-to-r from-[#167389] to-[#167389] bg-clip-text text-transparent">
-                ৳{order.totals.grandTotal}
-              </div>
-              <p className="text-sm text-gray-600 mt-1">Total Amount</p>
-            </div>
+        <div className="flex items-center justify-between">
+          <p className={`text-sm text-orange-600 font-semibold ${getStatusColor(order.status)}`}>
+            {getStatusText(order.status)}
+          </p>
+          <div className="flex items-center gap-2">
             <button
               onClick={() => setExpanded(!expanded)}
-              className="flex items-center gap-2 px-4 py-2.5 bg-[#167389] text-white rounded-xl font-semibold hover:bg-[#125f70] transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+              className="flex items-center gap-1 px-2 py-1 text-xs border border-[#167389] bg-[#167389] hover:bg-[#125f70] text-white rounded transition"
             >
-              {expanded ? (
-                <>
-                  <EyeOff className="w-4 h-4" />
-                  <span className="hidden sm:inline">Hide Details</span>
-                </>
-              ) : (
-                <>
-                  <Eye className="w-4 h-4" />
-                  <span className="hidden sm:inline">View Details</span>
-                </>
-              )}
+              <Eye className="w-4 h-4" /> View
+              {expanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+            </button>
+            {onViewInvoice && (
+              <button
+                onClick={() => onViewInvoice(order)}
+                className="px-2 py-1 text-xs border border-[#167389] bg-[#167389] hover:bg-[#125f70] text-white rounded transition"
+              >
+                Invoice
+              </button>
+            )}
+            <button
+              onClick={handleContactSupport}
+              className="px-2 py-1 text-xs border border-[#167389] bg-[#167389] hover:bg-[#125f70] text-white rounded transition"
+            >
+              Support
             </button>
           </div>
         </div>
       </div>
 
       {expanded && (
-        <div className="border-t border-pink-100 p-4 sm:p-6 bg-linear-to-br from-pink-50/50 to-rose-50/50">
+        <div className="border-t border-gray-200 p-4 bg-gray-50">
           <CustomerInfo order={order} />
           <OrderItemsList order={order} />
           <OrderSummary order={order} />

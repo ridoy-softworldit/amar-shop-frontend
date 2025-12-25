@@ -93,13 +93,13 @@ export default function ManufacturerProducts({
   return (
     <div className="space-y-4">
       {/* Mobile Layout */}
-      <div className="lg:hidden flex flex-wrap gap-2">
+      <div className="lg:hidden grid grid-cols-2 gap-2">
         {Array.isArray(items) && items.length > 0 ? (
           items.map((p) => (
             <ProductCard key={p._id} product={p} />
           ))
         ) : (
-          <div className="w-full text-center text-gray-500 py-8">
+          <div className="col-span-2 text-center text-gray-500 py-8">
             No products found
           </div>
         )}
