@@ -99,14 +99,14 @@ export default function MobileManufacturersGrid() {
                 <Link
                   key={`brand-${manufacturer._id ?? manufacturer.slug}`}
                   href={`/manufacturer/${manufacturer.slug}`}
-                  className="group min-w-[48%] max-w-[48%] shrink-0 h-[80px] rounded-md border border-gray-200 bg-white p-2 flex items-center gap-2 hover:shadow-md hover:border-cyan-300 transition"
+                  className="group min-w-[48%] max-w-[48%] shrink-0 h-[80px] rounded-md border border-gray-200 bg-white hover:shadow-md hover:border-cyan-300 transition overflow-hidden"
                 >
-                  <div className="w-12 h-12 rounded-md overflow-hidden bg-gray-50 flex items-center justify-center p-1 shrink-0">
+                  <div className="w-full h-full bg-gray-50 flex items-center justify-center">
                     {manufacturer.image ? (
                       <img
                         src={manufacturer.image}
                         alt={manufacturer.name}
-                        style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
+                        className="w-full h-full object-cover"
                         onError={(e) => {
                           e.currentTarget.style.display = 'none';
                         }}
@@ -115,9 +115,6 @@ export default function MobileManufacturersGrid() {
                       <Building2 className="w-6 h-6 text-gray-400" />
                     )}
                   </div>
-                  <p className="flex-1 text-[12px] font-extrabold text-gray-800 text-left leading-tight line-clamp-2 uppercase">
-                    {manufacturer.name.toUpperCase()}
-                  </p>
                 </Link>
               ))}
           

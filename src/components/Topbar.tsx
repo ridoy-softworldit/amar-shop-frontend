@@ -216,10 +216,10 @@ export default function Topbar() {
             <div className="flex items-center justify-end gap-2">
               <div className="hidden lg:flex gap-2">
                 <button className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-md text-sm font-semibold transition">
-                  বাংলা
+                  বাং
                 </button>
                 <button className="px-3 py-1.5 bg-white text-cyan-600 rounded-md text-sm font-semibold">
-                  English
+                  Eng
                 </button>
               </div>
               <Link href="/profile" aria-label="Profile">
@@ -281,10 +281,10 @@ export default function Topbar() {
               </div>
             </form>
             <button className="px-1 py-2 bg-white/10 text-white border-2 border-white/20 rounded-md text-xs font-semibold whitespace-nowrap">
-              বাংলা
+              বাং
             </button>
             <button className="px-1 py-2 bg-white text-cyan-600 border-2 border-white rounded-md text-xs font-semibold whitespace-nowrap">
-              English
+              Eng
             </button>
           </div>
         </div>

@@ -13,7 +13,7 @@ export interface CustomerInfo {
 }
 
 export const useCustomerInfo = () => {
-  const { user, isAuthed, isHydrated } = useAuth();
+  const { user, isAuthed, isHydrated, token } = useAuth();
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo>({
     name: "",
     phone: "",
@@ -28,18 +28,56 @@ export const useCustomerInfo = () => {
   useEffect(() => {
     if (!isHydrated) return;
 
-    if (isAuthed && user) {
-      // Logged-in user: pre-fill from user data
-      console.log('Auto-filling user data:', user);
-      setCustomerInfo({
-        name: user.name || "",
-        phone: user.phone || "",
-        email: user.email || "",
-        houseOrVillage: extractAddressPart(user.address, 0),
-        roadOrPostOffice: extractAddressPart(user.address, 1),
-        blockOrThana: extractAddressPart(user.address, 2),
-        district: extractAddressPart(user.address, 3),
-      });
+    if (isAuthed && user && token) {
+      // Fetch profile from API
+      const API = process.env.NEXT_PUBLIC_API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE || "";
+      
+      fetch(`${API}/customers/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.ok && result.data) {
+            console.log('Auto-filling from API:', result.data);
+            setCustomerInfo({
+              name: result.data.name || user.name || "",
+              phone: result.data.phone || user.phone || "",
+              email: result.data.email || user.email || "",
+              houseOrVillage: result.data.address?.houseOrVillage || "",
+              roadOrPostOffice: result.data.address?.roadOrPostOffice || "",
+              blockOrThana: result.data.address?.blockOrThana || "",
+              district: result.data.address?.district || "",
+            });
+          } else {
+            // Fallback to user data
+            console.log('Auto-filling from user data:', user);
+            setCustomerInfo({
+              name: user.name || "",
+              phone: user.phone || "",
+              email: user.email || "",
+              houseOrVillage: extractAddressPart(user.address, 0),
+              roadOrPostOffice: extractAddressPart(user.address, 1),
+              blockOrThana: extractAddressPart(user.address, 2),
+              district: extractAddressPart(user.address, 3),
+            });
+          }
+        })
+        .catch(() => {
+          // Fallback to user data on error
+          console.log('Auto-filling from user data (error):', user);
+          setCustomerInfo({
+            name: user.name || "",
+            phone: user.phone || "",
+            email: user.email || "",
+            houseOrVillage: extractAddressPart(user.address, 0),
+            roadOrPostOffice: extractAddressPart(user.address, 1),
+            blockOrThana: extractAddressPart(user.address, 2),
+            district: extractAddressPart(user.address, 3),
+          });
+        });
       setIsGuest(false);
     } else {
       // Guest user: try to load from localStorage
@@ -66,7 +104,7 @@ export const useCustomerInfo = () => {
       }
       setIsGuest(true);
     }
-  }, [user, isAuthed, isHydrated]);
+  }, [user, isAuthed, isHydrated, token]);
 
   const saveCustomerInfo = (info: CustomerInfo) => {
     setCustomerInfo(info);

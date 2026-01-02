@@ -416,13 +416,22 @@ export default function TrendingGrid({
                 </div>
               </div>
 
-              <button
-                onClick={() => handleAddToCart(prod)}
-                disabled={prod.isOutOfStock || !!loadingStates[prod.p._id]}
-                className="w-full px-2 py-1.5 bg-[#167389] text-white rounded-md text-xs font-medium disabled:opacity-50"
-              >
-                {loadingStates[prod.p._id] ? "Adding..." : "Add to Bag"}
-              </button>
+              <div className="w-full flex gap-1">
+                <button
+                  onClick={() => handleAddToCart(prod)}
+                  disabled={prod.isOutOfStock || !!loadingStates[prod.p._id]}
+                  className="flex-1 px-1 py-1.5 bg-[#167389] text-white rounded-md text-[10px] font-medium disabled:opacity-50 whitespace-nowrap"
+                >
+                  {loadingStates[prod.p._id] ? "Adding..." : "Add to Bag"}
+                </button>
+                <button
+                  onClick={() => handleBuyNow(prod)}
+                  disabled={prod.isOutOfStock || !!loadingStates[prod.p._id]}
+                  className="flex-1 px-1 py-1.5 bg-gradient-to-r from-pink-600 to-rose-600 text-white rounded-md text-[10px] font-medium disabled:opacity-50 whitespace-nowrap"
+                >
+                  {loadingStates[prod.p._id] ? "Processing..." : "Buy Now"}
+                </button>
+              </div>
             </div>
           ))}
           

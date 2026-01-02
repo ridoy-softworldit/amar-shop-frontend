@@ -76,24 +76,21 @@ export default function ManufacturersSection() {
           >
             <Link
               href={`/manufacturer/${manufacturer.slug}`}
-              className="block bg-white border border-gray-200 rounded-xl p-3 hover:shadow-md hover:border-[#167389] transition-all group"
+              className="block bg-white border border-gray-200 rounded-xl hover:shadow-md hover:border-[#167389] transition-all group overflow-hidden"
             >
-              <div className="aspect-square bg-gray-50 rounded-lg flex items-center justify-center mb-2 group-hover:bg-[#167389]/5 transition-colors">
+              <div className="aspect-square bg-gray-50 flex items-center justify-center group-hover:bg-[#167389]/5 transition-colors">
                 {manufacturer.image ? (
                   <Image
                     src={manufacturer.image}
                     alt={manufacturer.name}
                     width={64}
                     height={64}
-                    className="w-full h-full object-contain rounded-lg"
+                    className="w-full h-full object-contain"
                   />
                 ) : (
                   <Building2 className="w-6 h-6 text-gray-400 group-hover:text-[#167389] transition-colors" />
                 )}
               </div>
-              <h3 className="text-xs font-medium text-gray-700 text-center truncate group-hover:text-[#167389] transition-colors uppercase">
-                {manufacturer.name.toUpperCase()}
-              </h3>
             </Link>
           </motion.div>
         ))}

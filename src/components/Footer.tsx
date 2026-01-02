@@ -42,7 +42,7 @@ export default function Footer() {
 
               <div className="min-w-0">
                 <h3 className="text-lg sm:text-xl font-bold truncate">
-                  {brand} আমার শপ
+                  {brand} <br /> আমার শপ
                 </h3>
               </div>
             </div>
@@ -186,7 +186,7 @@ export default function Footer() {
                 aria-label="Facebook"
                 title="Facebook"
               >
-                <Facebook className="w-5 h-5" aria-hidden="true" />
+                <Facebook className="w-5 h-5 text-[#167389]" aria-hidden="true" />
               </a>
 
               {/* Instagram */}
@@ -198,7 +198,7 @@ export default function Footer() {
                 aria-label="Instagram"
                 title="Instagram"
               >
-                <Instagram className="w-5 h-5" aria-hidden="true" />
+                <Instagram className="w-5 h-5 text-[#167389]" aria-hidden="true" />
               </a>
 
               {/* ✅ TikTok (replacing Twitter) */}
@@ -210,7 +210,7 @@ export default function Footer() {
                 aria-label="TikTok"
                 title="TikTok"
               >
-                <SiTiktok className="w-5 h-5" aria-hidden="true" />
+                <SiTiktok className="w-5 h-5 text-[#167389]" aria-hidden="true" />
               </a>
 
               {/* YouTube */}
@@ -222,7 +222,7 @@ export default function Footer() {
                 aria-label="YouTube"
                 title="YouTube"
               >
-                <Youtube className="w-5 h-5" aria-hidden="true" />
+                <Youtube className="w-5 h-5 text-[#167389]" aria-hidden="true" />
               </a>
             </div>
 

@@ -427,13 +427,22 @@ export default function ProductCard({
         </div>
       </div>
 
-      <button
-        onClick={handleAdd}
-        disabled={isOut || adding || buying}
-        className="w-full px-2 py-1.5 bg-[#167389] text-white rounded-md text-xs font-medium disabled:opacity-50"
-      >
-        {adding ? "Adding..." : "Add to Bag"}
-      </button>
+      <div className="w-full flex gap-1">
+        <button
+          onClick={handleAdd}
+          disabled={isOut || adding || buying}
+          className="flex-1 px-1 py-1.5 bg-[#167389] text-white rounded-md text-[10px] font-medium disabled:opacity-50 whitespace-nowrap"
+        >
+          {adding ? "Adding..." : "Add to Bag"}
+        </button>
+        <button
+          onClick={handleBuyNow}
+          disabled={isOut || adding || buying}
+          className="flex-1 px-1 py-1.5 bg-gradient-to-r from-pink-600 to-rose-600 text-white rounded-md text-[10px] font-medium disabled:opacity-50 whitespace-nowrap"
+        >
+          {buying ? "Processing..." : "Buy Now"}
+        </button>
+      </div>
     </article>
   );
 

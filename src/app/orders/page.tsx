@@ -158,54 +158,78 @@ export default function MyOrdersPage() {
     <div className="min-h-screen bg-white py-20 sm:py-8">
       <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6">
         {/* Header */}
-        <div className="text-center mb-8 sm:mb-12">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="p-3 bg-[#167389] rounded-2xl">
-              <Sparkles className="w-8 h-8 text-white" />
+        <div className="text-center mb-3 sm:mb-8">
+          <div className="flex items-center justify-center gap-2 mb-2 sm:mb-4">
+            <div className="p-2 sm:p-3 bg-[#167389] rounded-xl sm:rounded-2xl">
+              <Sparkles className="w-5 h-5 sm:w-8 sm:h-8 text-white" />
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#167389]">
+            <h1 className="text-xl sm:text-4xl lg:text-5xl font-bold text-[#167389]">
               My Orders
             </h1>
           </div>
 
           {/* User Status Info */}
           {isAuthed && user ? (
-            <div className="bg-green-50 border-2 border-green-200 rounded-xl p-4 max-w-md mx-auto mb-4">
-              <div className="flex items-center justify-center gap-3">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <CheckCircle className="w-5 h-5 text-green-600" />
+            <div className="bg-green-50 border border-green-200 rounded-lg p-2 sm:p-4 max-w-md mx-auto mb-2 sm:mb-4">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="p-1 sm:p-2 bg-green-100 rounded-lg">
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-xs sm:text-sm text-green-600">Logged in as</p>
+                    <p className="text-sm sm:text-base font-semibold text-green-800">{user.name}</p>
+                    <p className="text-[10px] sm:text-xs text-green-600">{user.email || user.phone}</p>
+                  </div>
                 </div>
-                <div className="text-left">
-                  <p className="text-sm text-green-600">Logged in as</p>
-                  <p className="font-semibold text-green-800">{user.name}</p>
-                  <p className="text-xs text-green-600">{user.email || user.phone}</p>
-                </div>
+                <button
+                  onClick={handleForceRefresh}
+                  disabled={isLoading}
+                  className="inline-flex items-center gap-1 px-2 py-1 border-2 border-green-600 bg-white text-green-600 rounded-lg hover:bg-green-50 disabled:opacity-50 text-xs whitespace-nowrap font-semibold"
+                >
+                  <span>{isLoading ? "Refreshing..." : "Refresh"}</span>
+                  <RefreshCw
+                    className={`w-3 h-3 ${isLoading ? "animate-spin" : ""}`}
+                  />
+                </button>
               </div>
             </div>
           ) : currentPhone ? (
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 max-w-md mx-auto mb-4">
-              <div className="flex items-center justify-center gap-3">
-                <div className="p-2 bg-blue-100 rounded-lg">
-                  <Phone className="w-5 h-5 text-blue-600" />
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-2 sm:p-4 max-w-md mx-auto mb-2 sm:mb-4">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="p-1 sm:p-2 bg-blue-100 rounded-lg">
+                    <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-xs sm:text-sm text-blue-600">Tracking orders for</p>
+                    <p className="text-sm sm:text-base font-semibold text-blue-800">{currentPhone}</p>
+                  </div>
                 </div>
-                <div className="text-left">
-                  <p className="text-sm text-blue-600">Tracking orders for</p>
-                  <p className="font-semibold text-blue-800">{currentPhone}</p>
-                </div>
+                <button
+                  onClick={handleForceRefresh}
+                  disabled={isLoading}
+                  className="inline-flex items-center gap-1 px-2 py-1 border-2 border-green-600 bg-white text-green-600 rounded-lg hover:bg-green-50 disabled:opacity-50 text-xs whitespace-nowrap font-semibold"
+                >
+                  <span>{isLoading ? "Refreshing..." : "Refresh"}</span>
+                  <RefreshCw
+                    className={`w-3 h-3 ${isLoading ? "animate-spin" : ""}`}
+                  />
+                </button>
               </div>
             </div>
           ) : null}
 
           {/* Guest Sign-in Prompt */}
           {!isAuthed && (
-            <div className="bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-xl p-4 max-w-2xl mx-auto mb-4">
-              <div className="flex items-start gap-3">
-                <LogIn className="w-5 h-5 text-cyan-600 mt-0.5" />
+            <div className="bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-lg p-2 sm:p-4 max-w-2xl mx-auto mb-2 sm:mb-4">
+              <div className="flex items-start gap-2 sm:gap-3">
+                <LogIn className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-600 mt-0.5" />
                 <div className="flex-1">
-                  <p className="text-sm font-semibold text-gray-800 mb-1">
+                  <p className="text-xs sm:text-sm font-semibold text-gray-800 mb-1">
                     Want to see all your orders in one place?
                   </p>
-                  <p className="text-xs text-gray-600 mb-2">
+                  <p className="text-[10px] sm:text-xs text-gray-600 mb-1 sm:mb-2 hidden sm:block">
                     Sign in to automatically track all orders linked to your account
                   </p>
                   <Link
@@ -219,37 +243,23 @@ export default function MyOrdersPage() {
             </div>
           )}
 
-          <p className="text-lg sm:text-xl text-gray-700 max-w-2xl mx-auto mb-4">
+          <p className="text-sm sm:text-lg lg:text-xl text-gray-700 max-w-2xl mx-auto mb-2 sm:mb-4 hidden sm:block">
             Your personal order history
           </p>
-
-          {/* Refresh Button */}
-          <div className="flex justify-center items-center gap-4">
-            <button
-              onClick={handleForceRefresh}
-              disabled={isLoading}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
-            >
-              <RefreshCw
-                className={`w-4 h-4 ${isLoading ? "animate-spin" : ""}`}
-              />
-              {isLoading ? "Refreshing..." : "Refresh Orders"}
-            </button>
-          </div>
         </div>
 
         {/* Search and Filter */}
         {orders.length > 0 && (
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
-            <div className="flex flex-col lg:flex-row gap-4">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200 shadow-md p-2 sm:p-4 lg:p-6 mb-3 sm:mb-6 lg:mb-8">
+            <div className="flex gap-2">
               <div className="flex-1 relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
                 <input
                   type="text"
-                  placeholder="Search by order ID or customer name..."
+                  placeholder="Search..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#167389] focus:border-[#167389] text-gray-700"
+                  className="w-full pl-9 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#167389] focus:border-[#167389] text-gray-700 text-xs"
                 />
               </div>
               <select
@@ -257,9 +267,9 @@ export default function MyOrdersPage() {
                 onChange={(e) =>
                   setStatusFilter(e.target.value as OrderStatus | "")
                 }
-                className="px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#167389] text-gray-700"
+                className="px-2 py-2 border rounded-lg focus:ring-2 focus:ring-[#167389] text-gray-700 text-xs"
               >
-                <option value="">All Status</option>
+                <option value="">All</option>
                 <option value="PENDING">Pending</option>
                 <option value="IN_PROGRESS">Processing</option>
                 <option value="IN_SHIPPING">Shipping</option>
