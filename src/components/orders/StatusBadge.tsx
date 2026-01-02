@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, CheckCircle, XCircle, Truck, AlertCircle } from "lucide-react";
+import { Clock, CheckCircle, XCircle, Truck, AlertCircle, RotateCcw } from "lucide-react";
 import type { OrderStatus } from "@/types/order";
 
 const STATUS_CONFIG: Record<
@@ -37,6 +37,12 @@ const STATUS_CONFIG: Record<
     color: "text-rose-800",
     bgColor: "bg-rose-50 border-rose-200",
     icon: XCircle,
+  },
+  RETURNED: {
+    label: "Returned",
+    color: "text-orange-800",
+    bgColor: "bg-orange-50 border-orange-200",
+    icon: RotateCcw,
   },
 };
 

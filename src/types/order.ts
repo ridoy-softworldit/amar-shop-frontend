@@ -65,7 +65,8 @@ export type OrderStatus =
   | "IN_PROGRESS"
   | "IN_SHIPPING"
   | "DELIVERED"
-  | "CANCELLED";
+  | "CANCELLED"
+  | "RETURNED";
 
 export interface OrderLine {
   // canonical id (product reference)
