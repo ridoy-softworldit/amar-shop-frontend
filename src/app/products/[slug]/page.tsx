@@ -186,7 +186,7 @@ export default async function ProductDetailsPage({
                 </div>
               </div>
 
-              {/* Right: Pricing & Actions (1/3) */}
+              {/* Right: Pricing, Stock & Actions (1/3) */}
               <div className="w-1/3 flex flex-col">
                 <div className="flex items-baseline gap-1 mb-1">
                   <div className="text-lg font-bold text-pink-600">
@@ -214,7 +214,7 @@ export default async function ProductDetailsPage({
                     <span className="text-red-600 font-semibold">Out of Stock</span>
                   )}
                 </div>
-                <div className="mt-auto space-y-2">
+                <div className="space-y-2">
                   <ProductActions product={product} hotline={hotline} />
                 </div>
               </div>

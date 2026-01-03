@@ -52,14 +52,14 @@ export default function CategoryHeroSlider({ banners }: { banners: Banner[] }) {
   }
 
   return (
-    <div className="relative w-full rounded-lg overflow-hidden">
-      <div className="w-full h-32 md:h-48 lg:h-64 relative">
+    <div className="relative w-full rounded-lg overflow-hidden bg-gray-50">
+      <div className="w-full aspect-video lg:aspect-auto lg:h-[400px] relative">
         <Image
           src={safeBanners[idx]?.image ?? "/images/placeholder.png"}
           alt={safeBanners[idx]?.title ?? "banner"}
           fill
-          style={{ objectFit: "contain" }}
-          sizes="(max-width:640px) 100vw, 100vw"
+          className="object-contain"
+          sizes="100vw"
           priority={idx === 0}
         />
         {/* overlay title */}

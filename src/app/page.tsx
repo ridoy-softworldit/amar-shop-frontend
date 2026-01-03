@@ -207,29 +207,29 @@ export default function HomePage() {
               showViewAll={true}
             />
           </ErrorBoundary>
-
-          {/* ===== Additional Promotional Section ===== */}
-          <ErrorBoundary>
-            <section className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 lg:p-8 mt-8">
-              <div className="text-center max-w-2xl mx-auto">
-                <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
-                  Cant Find What You are Looking For?
-                </h2>
-                <p className="text-gray-600 mb-6 text-lg">
-                  Explore our complete catalog with thousands of products
-                </p>
-                <Link
-                  href="/search"
-                  className="inline-flex items-center gap-3 px-8 py-4 bg-linear-to-r bg-[#167389] text-white rounded-xl font-semibold text-lg hover:shadow-xl transition-all duration-300 hover:gap-4"
-                >
-                  Browse All Products
-                  <ChevronRight className="w-5 h-5" />
-                </Link>
-              </div>
-            </section>
-          </ErrorBoundary>
         </main>
       </div>
+
+      {/* ===== Additional Promotional Section - Full Width ===== */}
+      <ErrorBoundary>
+        <section className="bg-linear-to-r from-blue-50 to-indigo-50 py-12 lg:py-16 mt-8">
+          <div className="text-center max-w-2xl mx-auto px-4">
+            <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+              Cant Find What You are Looking For?
+            </h2>
+            <p className="text-gray-600 mb-6 text-lg">
+              Explore our complete catalog with thousands of products
+            </p>
+            <Link
+              href="/search"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-linear-to-r bg-[#167389] text-white rounded-xl font-semibold text-lg hover:shadow-xl transition-all duration-300 hover:gap-4"
+            >
+              Browse All Products
+              <ChevronRight className="w-5 h-5" />
+            </Link>
+          </div>
+        </section>
+      </ErrorBoundary>
     </div>
   );
 }

@@ -46,20 +46,18 @@ function BannerCarouselBase({
     >
       <div className="relative w-full h-full flex items-center justify-center bg-gray-50">
         {sources.map((src, i) => (
-          <img
+          <Image
             key={i}
             src={src}
             alt={`Banner ${i + 1}`}
+            fill
+            className="object-contain"
             style={{ 
-              maxWidth: '100%', 
-              maxHeight: '100%', 
-              width: 'auto', 
-              height: 'auto',
-              position: 'absolute',
               transition: 'all 0.7s ease-in-out',
               transform: i === index ? 'translateX(0)' : 'translateX(-100%)',
               opacity: i === index ? 1 : 0
             }}
+            priority={i === 0}
           />
         ))}
       </div>

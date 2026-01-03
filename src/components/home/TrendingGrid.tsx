@@ -476,67 +476,52 @@ export default function TrendingGrid({
                   </div>
                 )}
                 <div className="absolute top-3 right-3">
-                  <div className="bg-white/60 rounded-full px-2 py-1 text-xs">
+                  <div className="bg-white rounded-full px-2 py-1 text-xs font-semibold text-gray-800 shadow-md">
                     {prod.stock} in
                   </div>
                 </div>
               </div>
 
-              <div className="p-4 flex flex-col flex-1">
+              <div className="p-2.5 flex flex-col flex-1">
                 <Link
                   href={`/products/${prod.p.slug}`}
-                  className="block mb-3 group-hover:text-pink-600 transition-colors"
+                  className="block mb-1.5 group-hover:text-pink-600 transition-colors"
                 >
-                  <h3 className="text-sm font-semibold text-gray-800 line-clamp-2 leading-tight min-h-[2.5rem]">
+                  <h3 className="text-sm font-semibold text-gray-800 line-clamp-2 leading-tight">
                     {prod.p.title}
                   </h3>
                 </Link>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-lg font-bold text-gray-900">
-                      {formatPrice(prod.total)}
-                    </span>
-                    {prod.discount > 0 && (
-                      <span className="text-sm text-gray-500 line-through">
-                        {formatPrice(prod.price * prod.qty)}
-                      </span>
-                    )}
-                  </div>
-                  {!prod.isOutOfStock && prod.stock < 20 && (
-                    <span className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">
-                      {prod.stock} left
-                    </span>
-                  )}
+                
+                <div className="text-lg font-bold text-gray-900 mb-2">
+                  {formatPrice(prod.total)}
                 </div>
 
-                <div className="mt-auto space-y-3">
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <div className="text-xs text-gray-600">Qty:</div>
-                      <div className="flex items-center gap-1 bg-gray-200 rounded-lg p-2">
-                        <button
-                          onClick={() => decrementQuantity(prod.p._id)}
-                          disabled={
-                            !!loadingStates[prod.p._id] || prod.qty <= 1
-                          }
-                          className="w-8 h-8 rounded-md bg-white text-black border border-gray-300 flex items-center justify-center font-bold text-lg hover:bg-gray-50 disabled:opacity-50"
-                        >
-                          −
-                        </button>
-                        <span className="w-10 text-center font-bold text-black text-lg">
-                          {prod.qty}
-                        </span>
-                        <button
-                          onClick={() => incrementQuantity(prod.p._id)}
-                          disabled={
-                            !!loadingStates[prod.p._id] ||
-                            prod.qty >= Math.max(1, prod.stock)
-                          }
-                          className="w-8 h-8 rounded-md bg-white text-black border border-gray-300 flex items-center justify-center font-bold text-lg hover:bg-gray-50 disabled:opacity-50"
-                        >
-                          +
-                        </button>
-                      </div>
+                <div className="mt-auto space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="text-xs text-gray-600">Qty:</div>
+                    <div className="flex items-center gap-0.5 bg-gray-200 rounded-lg p-0.5">
+                      <button
+                        onClick={() => decrementQuantity(prod.p._id)}
+                        disabled={
+                          !!loadingStates[prod.p._id] || prod.qty <= 1
+                        }
+                        className="w-6 h-6 rounded-md bg-white text-black border border-gray-300 flex items-center justify-center font-bold text-base hover:bg-gray-50 disabled:opacity-50"
+                      >
+                        −
+                      </button>
+                      <span className="w-7 text-center font-bold text-black text-sm">
+                        {prod.qty}
+                      </span>
+                      <button
+                        onClick={() => incrementQuantity(prod.p._id)}
+                        disabled={
+                          !!loadingStates[prod.p._id] ||
+                          prod.qty >= Math.max(1, prod.stock)
+                        }
+                        className="w-6 h-6 rounded-md bg-white text-black border border-gray-300 flex items-center justify-center font-bold text-base hover:bg-gray-50 disabled:opacity-50"
+                      >
+                        +
+                      </button>
                     </div>
                   </div>
 
@@ -546,20 +531,16 @@ export default function TrendingGrid({
                       disabled={
                         prod.isOutOfStock || !!loadingStates[prod.p._id]
                       }
-                      className="flex-1 px-4 py-2.5 bg-[#167389] text-white rounded-lg text-sm font-semibold"
+                      className="flex-1 px-3 py-2 bg-[#167389] text-white rounded-lg text-sm font-semibold"
                     >
-                      {loadingStates[prod.p._id] ? (
-                        "Adding..."
-                      ) : (
-                        <>Add to Bag {prod.qty > 1 ? `(${prod.qty})` : ""}</>
-                      )}
+                      {loadingStates[prod.p._id] ? "Adding..." : "Add to Bag"}
                     </button>
                     <button
                       onClick={() => handleBuyNow(prod)}
                       disabled={
                         prod.isOutOfStock || !!loadingStates[prod.p._id]
                       }
-                      className="flex-1 px-4 py-2.5 bg-gradient-to-r from-pink-600 to-rose-600 text-white rounded-lg text-sm font-semibold"
+                      className="flex-1 px-3 py-2 bg-gradient-to-r from-pink-600 to-rose-600 text-white rounded-lg text-sm font-semibold"
                     >
                       {loadingStates[prod.p._id] ? "Processing..." : "Buy Now"}
                     </button>

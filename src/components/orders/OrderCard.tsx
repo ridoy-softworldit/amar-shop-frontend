@@ -151,11 +151,11 @@ export default function OrderCard({ order, onViewInvoice }: OrderCardProps) {
           </div>
         </div>
 
-        <div className="flex items-center justify-between">
-          <p className={`text-sm text-orange-600 font-semibold ${getStatusColor(order.status)}`}>
-            {getStatusText(order.status)}
-          </p>
-          <div className="flex items-center gap-2">
+        <div className="space-y-3">
+          <div className="flex items-center justify-between gap-2">
+            <p className={`text-sm font-semibold ${getStatusColor(order.status)}`}>
+              {getStatusText(order.status)}
+            </p>
             {order.status === "RETURNED" && (
               <button
                 onClick={() => setShowReorderModal(true)}
@@ -164,6 +164,8 @@ export default function OrderCard({ order, onViewInvoice }: OrderCardProps) {
                 Request Delivery Again
               </button>
             )}
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => setExpanded(!expanded)}
               className="flex items-center gap-1 px-2 py-1 text-xs border border-[#167389] bg-[#167389] hover:bg-[#125f70] text-white rounded transition"

@@ -235,65 +235,46 @@ export default function ProductCard({
         </div>
       </Link>
 
-      <div className={`flex flex-col flex-1 ${compact ? "pt-2" : "pt-4"}`}>
-        <Link href={`/products/${slug}`} className="mb-2">
+      <div className={`flex flex-col flex-1 ${compact ? "pt-1.5" : "pt-2.5"}`}>
+        <Link href={`/products/${slug}`} className={compact ? "mb-1" : "mb-1.5"}>
           <h3
             className={`font-semibold text-gray-800 line-clamp-2 ${
-              compact ? "text-sm min-h-8" : "text-base min-h-10"
+              compact ? "text-sm" : "text-sm"
             }`}
           >
             {title}
           </h3>
         </Link>
 
-        <div className="flex items-baseline justify-between mb-3">
-          <div className="flex items-baseline gap-2">
-            <span
-              className={`font-bold text-gray-900 ${
-                compact ? "text-lg" : "text-xl"
-              }`}
-            >
-              {formatPrice(totalPrice)}
-            </span>
-            {compare > price && (
-              <span className="text-gray-500 line-through text-sm">
-                {formatPrice(price * quantity)}
-              </span>
-            )}
-          </div>
-
-          <div className="text-xs text-gray-600">
-            {isOut ? (
-              <span className="text-red-600 font-semibold">Out of Stock</span>
-            ) : isLow ? (
-              <span className="text-orange-500 font-semibold">
-                Only {available} left
-              </span>
-            ) : (
-              <span className="text-green-600 font-semibold">In Stock</span>
-            )}
-          </div>
+        <div className={compact ? "mb-1.5" : "mb-2"}>
+          <span
+            className={`font-bold text-gray-900 ${
+              compact ? "text-lg" : "text-lg"
+            }`}
+          >
+            {formatPrice(totalPrice)}
+          </span>
         </div>
 
         {/* Quantity Selector */}
-        <div className="flex items-center justify-between mb-3">
+        <div className={`flex items-center justify-between ${compact ? "mb-1.5" : "mb-2"}`}>
           <span
             className={`text-gray-600 font-medium ${
-              compact ? "text-xs" : "text-sm"
+              compact ? "text-xs" : "text-xs"
             }`}
           >
             Qty:
           </span>
-          <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
+          <div className="flex items-center gap-0.5 bg-gray-100 rounded-lg p-0.5">
             <button
               onClick={decrementQuantity}
               disabled={quantity <= 1 || adding || buying || isOut}
               className={`flex items-center justify-center rounded-md bg-white border border-gray-300 transition-all hover:bg-gray-50 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed ${
-                compact ? "w-6 h-6" : "w-7 h-7"
+                compact ? "w-6 h-6" : "w-6 h-6"
               }`}
               aria-label="Decrease quantity"
             >
-              <Minus className={compact ? "w-3 h-3" : "w-4 h-4"} />
+              <Minus className={compact ? "w-3 h-3" : "w-3 h-3"} />
             </button>
             <span
               className={`font-bold text-gray-800 mx-1 ${
@@ -306,43 +287,39 @@ export default function ProductCard({
               onClick={incrementQuantity}
               disabled={adding || buying || isOut || quantity >= available}
               className={`flex items-center justify-center rounded-md bg-white border border-gray-300 transition-all hover:bg-gray-50 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed ${
-                compact ? "w-6 h-6" : "w-7 h-7"
+                compact ? "w-6 h-6" : "w-6 h-6"
               }`}
               aria-label="Increase quantity"
             >
-              <Plus className={compact ? "w-3 h-3" : "w-4 h-4"} />
+              <Plus className={compact ? "w-3 h-3" : "w-3 h-3"} />
             </button>
           </div>
         </div>
 
         {/* Action Buttons */}
         <div
-          className={`mt-auto space-y-2 ${compact ? "space-y-1" : "space-y-2"}`}
+          className={`mt-auto ${compact ? "space-y-1.5" : "space-y-2"}`}
         >
-          <div
-            className={`flex gap-2 ${compact ? "flex-col" : "flex-col sm:flex-row"}`}
-          >
+          <div className="flex gap-2">
             <button
               onClick={handleAdd}
               disabled={isOut || adding || buying}
-              className={`flex items-center justify-center gap-2 font-semibold rounded-lg transition-all disabled:opacity-60 disabled:cursor-not-allowed active:scale-95 ${
+              className={`flex-1 flex items-center justify-center gap-2 font-semibold rounded-lg transition-all disabled:opacity-60 disabled:cursor-not-allowed active:scale-95 ${
                 compact
                   ? "px-2 py-1.5 text-xs bg-[#167389] text-white"
-                  : "flex-1 px-3 py-2 text-sm bg-[#167389] text-white hover:bg-[#135a6b]"
+                  : "px-3 py-2 text-sm bg-[#167389] text-white hover:bg-[#135a6b]"
               }`}
             >
-              {adding
-                ? "Adding..."
-                : `Add ${quantity > 1 ? `(${quantity})` : ""}`}
+              {adding ? "Adding..." : "Add to Bag"}
             </button>
 
             <button
               onClick={handleBuyNow}
               disabled={isOut || adding || buying}
-              className={`flex items-center justify-center gap-2 font-semibold rounded-lg transition-all disabled:opacity-60 disabled:cursor-not-allowed active:scale-95 ${
+              className={`flex-1 flex items-center justify-center gap-2 font-semibold rounded-lg transition-all disabled:opacity-60 disabled:cursor-not-allowed active:scale-95 ${
                 compact
                   ? "px-2 py-1.5 text-xs bg-linear-to-r from-pink-600 to-rose-600 text-white"
-                  : "flex-1 px-3 py-2 text-sm bg-linear-to-r from-pink-600 to-rose-600 text-white hover:from-pink-700 hover:to-rose-700"
+                  : "px-3 py-2 text-sm bg-linear-to-r from-pink-600 to-rose-600 text-white hover:from-pink-700 hover:to-rose-700"
               }`}
             >
               <Eye className={compact ? "w-3 h-3" : "w-4 h-4"} />

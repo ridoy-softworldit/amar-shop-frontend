@@ -3,16 +3,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import {
-
   Mail,
   Phone,
   MapPin,
-  Facebook,
-  Instagram,
-  Youtube,
   Heart,
 } from "lucide-react";
-import { SiTiktok } from "react-icons/si"; 
+import { SiTiktok, SiFacebook, SiInstagram, SiYoutube } from "react-icons/si"; 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   const brand = process.env.NEXT_PUBLIC_BRAND || "Amaar Shop";
@@ -186,7 +182,7 @@ export default function Footer() {
                 aria-label="Facebook"
                 title="Facebook"
               >
-                <Facebook className="w-5 h-5 text-[#167389]" aria-hidden="true" />
+                <SiFacebook className="w-5 h-5 text-[#1877F2]" aria-hidden="true" />
               </a>
 
               {/* Instagram */}
@@ -198,10 +194,10 @@ export default function Footer() {
                 aria-label="Instagram"
                 title="Instagram"
               >
-                <Instagram className="w-5 h-5 text-[#167389]" aria-hidden="true" />
+                <SiInstagram className="w-5 h-5 text-[#E4405F]" aria-hidden="true" />
               </a>
 
-              {/* ✅ TikTok (replacing Twitter) */}
+              {/* TikTok */}
               <a
                 href="https://www.tiktok.com/@amaarshop1?_t=ZS-90tPDmEVWSY&_r=1"
                 target="_blank"
@@ -210,7 +206,7 @@ export default function Footer() {
                 aria-label="TikTok"
                 title="TikTok"
               >
-                <SiTiktok className="w-5 h-5 text-[#167389]" aria-hidden="true" />
+                <SiTiktok className="w-5 h-5 text-[#000000]" aria-hidden="true" />
               </a>
 
               {/* YouTube */}
@@ -222,7 +218,7 @@ export default function Footer() {
                 aria-label="YouTube"
                 title="YouTube"
               >
-                <Youtube className="w-5 h-5 text-[#167389]" aria-hidden="true" />
+                <SiYoutube className="w-5 h-5 text-[#FF0000]" aria-hidden="true" />
               </a>
             </div>
 
