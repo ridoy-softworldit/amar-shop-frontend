@@ -72,26 +72,26 @@ export default function ManufacturersPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.04 }}
-            className="bg-white rounded-2xl border border-cyan-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all cursor-pointer overflow-hidden h-48 sm:h-56"
+            className="bg-white rounded-2xl border border-cyan-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all cursor-pointer overflow-hidden"
           >
             <Link
               href={`/manufacturer/${encodeURIComponent(manufacturer.slug)}`}
-              className="relative block h-full"
+              className="flex flex-col h-full"
             >
-              <div className="absolute inset-0 bg-gray-50 flex items-center justify-center p-2" style={{ bottom: '60px' }}>
+              <div className="flex-1 bg-gray-50 flex items-center justify-center p-4 min-h-[120px] sm:min-h-[140px]">
                 {manufacturer.image ? (
                   <img
                     src={manufacturer.image}
                     alt={manufacturer.name}
-                    style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
+                    className="max-w-full max-h-full object-contain"
                   />
                 ) : (
                   <Sparkles className="w-12 h-12 text-cyan-600" />
                 )}
               </div>
 
-              <div className="absolute bottom-0 left-0 right-0 bg-white p-2" style={{ height: '60px' }}>
-                <h3 className="text-sm sm:text-base font-semibold text-gray-700 text-center leading-tight mb-2">
+              <div className="bg-white p-3 border-t border-gray-100">
+                <h3 className="text-sm sm:text-base font-semibold text-gray-700 text-center leading-tight mb-1">
                   {manufacturer.name}
                 </h3>
                 <div className="flex items-center justify-center gap-1 text-cyan-600 text-xs sm:text-sm font-medium">
