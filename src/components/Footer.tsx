@@ -226,7 +226,7 @@ export default function Footer() {
               <p className="text-[11px] sm:text-xs text-white mb-1.5 font-semibold">
                 Customer Service
               </p>
-              <p className="text-sm text-white">9 AM - 9 PM Daily</p>
+              <p className="text-sm text-white">9 AM - 12 PM Daily</p>
               <p className="text-[11px] sm:text-xs text-white mt-1">
                 Saturday - Thursday
               </p>
